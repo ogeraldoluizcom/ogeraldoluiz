@@ -25,4 +25,4 @@ spec:
 tls:
   - hosts:
     - www.ogeraldoluiz.com
-    secretName: tls-cert-seudominio
+    secretName: tls-cert-ogeraldoluiz
