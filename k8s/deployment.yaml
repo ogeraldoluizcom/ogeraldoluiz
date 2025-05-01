@@ -24,9 +24,9 @@ spec:
             - name: NODE_ENV
               value: development
           resources:
-              limits:
-                cpu: 200m
-                memory: 128Mi
-              requests:
-                cpu: 100m
-                memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 75m
+              memory: 48Mi
