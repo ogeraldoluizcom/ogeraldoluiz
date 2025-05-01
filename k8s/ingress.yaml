@@ -22,7 +22,7 @@ spec:
                 port:
                   number: 80
 
-tls:
-  - hosts:
-    - www.ogeraldoluiz.com
-    secretName: tls-cert-ogeraldoluiz
+  tls:
+    - hosts:
+      - www.ogeraldoluiz.com
+      secretName: tls-cert-ogeraldoluiz
