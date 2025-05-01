@@ -106,7 +106,7 @@ jobs:
     secrets: inherit
     with:
       environment-name: production
-      environment-url: https://production.ogeraldoluiz.com
+      environment-url: https://ogeraldoluiz.com
       K8S_NAMESPACE: production
 
   #Notifications
