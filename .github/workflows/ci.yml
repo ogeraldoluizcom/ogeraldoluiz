@@ -76,8 +76,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            geraldobl58/webapp:v${{ github.run_number }}
-            geraldobl58/webapp:latest
+            geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+            geraldobl58/ogeraldoluiz:latest
 
 
   # Deploy
