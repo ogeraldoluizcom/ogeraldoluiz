@@ -1,35 +1,3 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: ogeraldoluiz
-#   namespace: development
-#   labels:
-#     name: ogeraldoluiz
-#   annotations:
-#     # nginx.ingress.kubernetes.io/rewrite-target: /
-#     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-#     kubernetes.io/ingress.class: "nginx"
-#     cert-manager.io/cluster-issuer: letsencrypt-development
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: development.ogeraldoluiz.com
-#       http:
-#         paths:
-#           - pathType: Prefix
-#             path: "/"
-#             backend:
-#               service:
-#                 name: ogeraldoluiz
-#                 port:
-#                   number: 80
-
-#   tls:
-#     - hosts:
-#       - development.ogeraldoluiz.com
-#       secretName: tls-cert-development
-
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -38,7 +6,9 @@ metadata:
   labels:
     name: ogeraldoluiz
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-development
 spec:
   ingressClassName: nginx
@@ -53,7 +23,8 @@ spec:
                 name: ogeraldoluiz
                 port:
                   number: 80
+
   tls:
     - hosts:
-        - development.ogeraldoluiz.com
+      - development.ogeraldoluiz.com
       secretName: tls-cert-development
