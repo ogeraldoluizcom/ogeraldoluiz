@@ -87,3 +87,5 @@ jobs:
             k8s/service.yaml
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+        env:
+          KUBECTL_EXTRA_ARGS: '--namespace=${{ inputs.K8S_NAMESPACE }}'
