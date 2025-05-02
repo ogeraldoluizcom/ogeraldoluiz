@@ -51,8 +51,31 @@ jobs:
         run: |
           kubectl get namespace ${{ inputs.K8S_NAMESPACE }} || kubectl create namespace ${{ inputs.K8S_NAMESPACE }}
 
-        # run: |
-        #   sed -i 's/host: development.ogeraldoluiz.com/host:${{ vars.BASE_URL }}/g' k8s/deployment.yaml
+      # Install cert-manager
+      - name: Install cert-manager
+        run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.2/cert-manager.yaml
+          kubectl wait --namespace cert-manager --for=condition=Available --timeout=300s deployment/cert-manager
+
+      # Configure Let's Encrypt ClusterIssuer
+      - name: Configure Let's Encrypt ClusterIssuer
+        run: |
+          cat <<EOF | kubectl apply -f -
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: letsencrypt-prod
+          spec:
+            acme:
+              server: https://acme-v02.api.letsencrypt.org/directory
+              email: geraldobl58@gmail.com
+              privateKeySecretRef:
+                name: letsencrypt-prod
+              solvers:
+              - http01:
+                  ingress:
+                    class: nginx
+          EOF
 
       # Deploy to Kubernetes
       - name: Deploy to Kubernetes

@@ -2,18 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ogeraldoluiz
-  namespace: development
+  namespace: ${{ inputs.K8S_NAMESPACE }}
   labels:
     name: ogeraldoluiz
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: letsencrypt-development
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   rules:
-    - host: development.ogeraldoluiz.com
+    - host: ${{ inputs.environment-url }}
       http:
         paths:
           - pathType: Prefix
