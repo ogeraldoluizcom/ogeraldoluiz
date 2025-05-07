@@ -38,7 +38,7 @@ jobs:
       # Aplicar a configuração no Kubernetes
       - name: Apply Rollback in Kubernetes
         run: |
-          kubectl set image deployment/ogeraldoluiz ogeraldoluiz=geraldobl58/ogeraldoluiz:latest --namespace=${{ github.event.inputs.environment }}
-          kubectl rollout status deployment/ogeraldoluiz --namespace=${{ github.event.inputs.environment }}
+          kubectl set image deployment/ogeraldoluiz ogeraldoluiz=geraldobl58/ogeraldoluiz:latest --namespace=${{ inputs.K8S_NAMESPACE }}
+          kubectl rollout status deployment/ogeraldoluiz --namespace=${{ inputs.K8S_NAMESPACE }}
         env:
           kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
