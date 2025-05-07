@@ -64,3 +64,10 @@ jobs:
             k8s/service.yaml
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+
+      # .github/workflows/deploy.yaml
+      - name: Commit e push de manifest
+        run: |
+          git add k8s/
+          git commit -m "deploy: Update deployment to ${{ inputs.environment-name }} - ${{ github.run_number }}"
+          git push
