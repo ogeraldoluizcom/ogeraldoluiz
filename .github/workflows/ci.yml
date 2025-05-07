@@ -4,9 +4,19 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 on:
   push:
     branches: [main]
-  # pull_request:
-  #   branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment to deploy'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
 
 permissions:
   contents: write
@@ -101,8 +111,8 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
-    if: github.ref == 'refs/heads/main'
-    needs: [CD]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
+    needs: [CI]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
