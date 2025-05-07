@@ -12,10 +12,6 @@ on:
           - production
           - staging
           - development
-      version:
-        type: string
-        description: 'Version to rollback (e.g., v1.0.0)'
-        required: true
 
 jobs:
   rollback:
@@ -33,10 +29,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Restaurar a última versão da imagem Docker
-      - name: Rollback to Specific Docker Image
+      - name: Rollback to Latest Docker Image
         run: |
-          docker pull geraldobl58/ogeraldoluiz:${{ github.event.inputs.version }}
-          docker tag geraldobl58/ogeraldoluiz:${{ github.event.inputs.version }} geraldobl58/ogeraldoluiz:rollback
+          docker pull geraldobl58/ogeraldoluiz:latest
+          docker tag geraldobl58/ogeraldoluiz:latest geraldobl58/ogeraldoluiz:rollback
           docker push geraldobl58/ogeraldoluiz:rollback
 
       # Aplicar a configuração no Kubernetes
