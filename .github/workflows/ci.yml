@@ -3,13 +3,25 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - develop
+      - release/v*
   # pull_request:
   #   branches: [main]
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment to deploy (development or staging)'
+        required: true
+        default: 'development'
+        options:
+          - development
+          - staging
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   # Continuous Integration (CI)
@@ -83,7 +95,8 @@ jobs:
 
   # Deploy
   deploy-development:
-    needs: [CD]
+    if: github.ref == 'refs/heads/develop'
+    needs: [CI]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
@@ -92,13 +105,36 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
-    needs: [CD]
+    if: startsWith(github.ref, 'refs/heads/release/v')
+    needs: [CI]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
       environment-name: staging
       environment-url: https://staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
+
+  # Abrir Pull Request para produção
+  open-pr-production:
+    if: github.ref == 'refs/heads/release/v*'
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request to Main
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Prepare release for production'
+          branch: release/v${{ github.run_number }}
+          base: main
+          title: 'Release v${{ github.run_number }}'
+          body: |
+            ## Release Notes
+            - Deploy validado em staging.
+            - Pronto para produção.
 
   deploy-production:
     needs: [CD]
