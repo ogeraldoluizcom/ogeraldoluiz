@@ -71,10 +71,6 @@ jobs:
       # Commit e push de manifest
       - name: Commit e push de manifest
         run: |
-          if [ -n "$(git status --porcelain k8s/)" ]; then
-            git add k8s/
-            git commit -m "deploy: Update deployment to ${{ inputs.environment-name }} - ${{ github.run_number }}"
-            git push
-          else
-            echo "No changes to commit."
-          fi
+          git add k8s/*
+          git commit -m "deploy: Update deployment to ${{ inputs.environment-name }} - ${{ github.run_number }}"
+          git push
