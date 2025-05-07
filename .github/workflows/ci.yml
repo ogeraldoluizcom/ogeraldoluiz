@@ -7,11 +7,31 @@ on:
   # pull_request:
   #   branches: [main]
   workflow_dispatch:
+    inputs:
+      branch:
+        type: choice
+        description: 'Branch to execute the workflow'
+        required: true
+        default: 'develop'
+        options:
+          - develop
+          - feature
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
+  # Validação da branch
+  validate-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure branch is not main
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch == 'main' }}
+        run: |
+          echo "Manual execution on the 'main' branch is not allowed."
+          exit 1
+
   # Continuous Integration (CI)
   CI:
     runs-on: ubuntu-latest
@@ -100,14 +120,45 @@ jobs:
       environment-url: https://staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
 
+  # Criar Pull Request para Produção
+  create-pull-request-production:
+    needs: [deploy-development, deploy-staging]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request to Production
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh auth login --with-token <<< "${GITHUB_TOKEN}"
+          gh pr create \
+            --base main \
+            --head develop \
+            --title "Release: Deploy to Production" \
+            --body "Este Pull Request contém as alterações validadas nos ambientes de development e staging. Por favor, revise e aprove para deploy em produção."
+
+  # Deploy para Produção
   deploy-production:
-    needs: [CD]
+    if: github.ref == 'refs/heads/main'
+    needs: [create-pull-request-production]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
       environment-name: production
       environment-url: https://ogeraldoluiz.com
       K8S_NAMESPACE: production
+
+  # deploy-production:
+  #   needs: [CD]
+  #   uses: ./.github/workflows/deploy.yml
+  #   secrets: inherit
+  #   with:
+  #     environment-name: production
+  #     environment-url: https://ogeraldoluiz.com
+  #     K8S_NAMESPACE: production
 
   create-release:
     needs: [deploy-production] # Executa após o deploy de produção
