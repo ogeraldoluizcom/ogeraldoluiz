@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ogeraldoluiz
-  namespace: development
+  namespace: production
   labels:
     app: ogeraldoluiz
 spec:

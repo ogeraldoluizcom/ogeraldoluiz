@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ogeraldoluiz
-  namespace: development
+  namespace: production
 spec:
   type: ClusterIP  # Pode ser ClusterIP, já que o Ingress vai expor
   selector:
