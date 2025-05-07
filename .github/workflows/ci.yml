@@ -3,15 +3,13 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   # pull_request:
   #   branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
   # Continuous Integration (CI)
@@ -85,7 +83,7 @@ jobs:
 
   # Deploy
   deploy-development:
-    needs: [CI]
+    needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
@@ -94,7 +92,7 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
-    needs: [deploy-development]
+    needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
@@ -102,18 +100,8 @@ jobs:
       environment-url: https://staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
 
-  # Manual Approval for Production
-  approve-production:
-    needs: [deploy-staging]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Await QA Approval
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
   deploy-production:
-    needs: [approve-production]
+    needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
