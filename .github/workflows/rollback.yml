@@ -12,6 +12,14 @@ on:
           - production
           - staging
           - development
+      version:
+        type: choice
+        description: 'Version to rollback (e.g., v1.0.0)'
+        required: true
+        default: 'latest'
+        options:
+          - latest
+          - v${ github.run_number }
 
 jobs:
   rollback:
@@ -29,16 +37,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Restaurar a última versão da imagem Docker
-      - name: Rollback to Latest Docker Image
+      - name: Rollback to Specific Docker Image
         run: |
-          docker pull geraldobl58/ogeraldoluiz:latest
-          docker tag geraldobl58/ogeraldoluiz:latest geraldobl58/ogeraldoluiz:rollback
+          docker pull geraldobl58/ogeraldoluiz:${{ github.event.inputs.version }}
+          docker tag geraldobl58/ogeraldoluiz:${{ github.event.inputs.version }} geraldobl58/ogeraldoluiz:rollback
           docker push geraldobl58/ogeraldoluiz:rollback
 
       # Aplicar a configuração no Kubernetes
       - name: Apply Rollback in Kubernetes
         run: |
-          kubectl set image deployment/ogeraldoluiz ogeraldoluiz=geraldobl58/ogeraldoluiz:latest --namespace=${{ inputs.K8S_NAMESPACE }}
-          kubectl rollout status deployment/ogeraldoluiz --namespace=${{ inputs.K8S_NAMESPACE }}
-        env:
-          kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
+          kubectl set image deployment/ogeraldoluiz ogeraldoluiz=geraldobl58/ogeraldoluiz:${{ github.event.inputs.version }} --namespace=${{ github.event.inputs.environment }}
+          kubectl rollout status deployment/ogeraldoluiz --namespace=${{ github.event.inputs.environment }}
