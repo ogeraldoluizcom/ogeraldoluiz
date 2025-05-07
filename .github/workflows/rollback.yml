@@ -19,7 +19,11 @@ on:
         default: 'latest'
         options:
           - latest
-          - v${ github.run_number }
+          - v53
+          - v52
+          - v51
+          - v50
+          - v49
 
 jobs:
   rollback:
