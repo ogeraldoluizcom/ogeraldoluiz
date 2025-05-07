@@ -51,16 +51,30 @@ jobs:
         run: |
           kubectl get namespace ${{ inputs.K8S_NAMESPACE }} || kubectl create namespace ${{ inputs.K8S_NAMESPACE }}
 
-        # run: |
-        #   sed -i 's/host: development.ogeraldoluiz.com/host:${{ vars.BASE_URL }}/g' k8s/deployment.yaml
-
       # Deploy to Kubernetes
-      - name: Deploy to Kubernetes
-        uses: azure/k8s-deploy@v5
-        with:
-          namespace: ${{ inputs.K8S_NAMESPACE }}
-          manifests: |
-            k8s/deployment.yaml
-            k8s/service.yaml
-            k8s/ingress.yaml
-          images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+      # - name: Deploy to Kubernetes
+      #   uses: azure/k8s-deploy@v5
+      #   with:
+      #     namespace: ${{ inputs.K8S_NAMESPACE }}
+      #     manifests: |
+      #       k8s/deployment.yaml
+      #       k8s/service.yaml
+      #       k8s/ingress.yaml
+      #     images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+
+      # Configurar identidade do Git
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "geraldobl58@gmail.com"
+          git config --global user.name "Geraldo Luiz"
+
+      # Commit e push de manifest
+      - name: Commit e push de manifest
+        run: |
+          if [ -n "$(git status --porcelain k8s/)" ]; then
+            git add k8s/
+            git commit -m "deploy: Update deployment to ${{ inputs.environment-name }} - ${{ github.run_number }}"
+            git push
+          else
+            echo "No changes to commit."
+          fi
