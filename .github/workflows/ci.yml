@@ -101,7 +101,6 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
-    if: github.ref == 'refs/heads/main'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
