@@ -41,4 +41,4 @@ jobs:
           kubectl set image deployment/ogeraldoluiz ogeraldoluiz=geraldobl58/ogeraldoluiz:latest --namespace=${{ github.event.inputs.environment }}
           kubectl rollout status deployment/ogeraldoluiz --namespace=${{ github.event.inputs.environment }}
         env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
