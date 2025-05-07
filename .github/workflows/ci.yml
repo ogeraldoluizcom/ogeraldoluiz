@@ -16,7 +16,6 @@ on:
         options:
           - development
           - staging
-          - production
 
 permissions:
   contents: write
