@@ -3,10 +3,15 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
   # pull_request:
   #   branches: [main]
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to execute the workflow'
+        required: true
+        default: 'develop'
 
 permissions:
   contents: write
@@ -14,6 +19,7 @@ permissions:
 jobs:
   # Continuous Integration (CI)
   CI:
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.branch != 'main' }}
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
@@ -100,8 +106,47 @@ jobs:
       environment-url: https://staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
 
+  # deploy-production:
+  #   needs: [CD]
+  #   uses: ./.github/workflows/deploy.yml
+  #   secrets: inherit
+  #   with:
+  #     environment-name: production
+  #     environment-url: https://ogeraldoluiz.com
+  #     K8S_NAMESPACE: production
+
+  # Criar Pull Request para Produção
+  create-pull-request-production:
+    needs: [deploy-development, deploy-staging]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout do repositório
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Configurar GitHub CLI
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+
+      # Criar Pull Request para Produção
+      - name: Create Pull Request to Production
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh auth login --with-token <<< "${GITHUB_TOKEN}"
+          gh pr create \
+            --base main \
+            --head develop \
+            --title "Release: Deploy to Production" \
+            --body "Este Pull Request contém as alterações validadas nos ambientes de development e staging. Por favor, revise e aprove para deploy em produção."
+
+  # Deploy para Produção
   deploy-production:
-    needs: [CD]
+    if: github.ref == 'refs/heads/main'
+    needs: [create-pull-request-production]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
