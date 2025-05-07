@@ -4,12 +4,22 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        type: choice
         description: 'Environment to rollback (e.g., production, staging)'
         required: true
         default: 'production'
+        options:
+          - production
+          - staging
+          - development
       version:
+        type: choice
         description: 'Version to rollback to (e.g., v4.2)'
         required: true
+        default: 'latest'
+        options:
+          - latest
+          - v${github.run_number}
 
 jobs:
   rollback:
