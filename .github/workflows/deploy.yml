@@ -68,7 +68,7 @@ jobs:
           git config --global user.email "geraldobl58@gmail.com"
           git config --global user.name "Geraldo Luiz"
 
-            # Commit e push de manifest
+      # Commit e push de manifest
       - name: Commit e push de manifest
         run: |
           if [ -n "$(git status --porcelain k8s/)" ]; then
