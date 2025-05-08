@@ -91,7 +91,6 @@ jobs:
 
   # Deploy
   deploy-development:
-    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -101,7 +100,6 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
-    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -111,7 +109,6 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -121,7 +118,6 @@ jobs:
       K8S_NAMESPACE: production
 
   create-release:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [deploy-production] # Executa após o deploy de produção
     runs-on: ubuntu-latest
     steps:
@@ -147,7 +143,6 @@ jobs:
 
   # Notificar sucesso ou falha para desenvolvimento
   notify-development:
-    if: github.ref == 'refs/heads/develop'
     needs: [deploy-development]
     runs-on: ubuntu-latest
     steps:
@@ -157,7 +152,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
+              "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\\n\\n*Commit:* ${{ github.event.head_commit.message }}\\n*Branch:* ${{ github.ref_name }}\\n*Repository:* ${{ github.repository }}\\n*URL:* ${{ github.event.head_commit.url }}\\n*Committer:* ${{ github.actor }}\\n*SHA:* ${{ github.sha }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -175,7 +170,6 @@ jobs:
 
   # Notificar sucesso ou falha para staging
   notify-staging:
-    if: github.ref == 'refs/heads/develop'
     needs: [deploy-staging]
     runs-on: ubuntu-latest
     steps:
@@ -185,7 +179,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "✅ CI/CD Pipeline completed successfully for *Staging* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
+              "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\\n\\n*Commit:* ${{ github.event.head_commit.message }}\\n*Branch:* ${{ github.ref_name }}\\n*Repository:* ${{ github.repository }}\\n*URL:* ${{ github.event.head_commit.url }}\\n*Committer:* ${{ github.actor }}\\n*SHA:* ${{ github.sha }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -203,7 +197,6 @@ jobs:
 
   # Notificar sucesso ou falha para produção
   notify-production:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [deploy-production]
     runs-on: ubuntu-latest
     steps:
