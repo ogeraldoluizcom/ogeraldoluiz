@@ -4,20 +4,12 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 on:
   push:
     branches: [develop]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Choose environment to deploy'
-        required: true
-        default: 'production'
-        type: choice
-        options:
-          - production
 
 permissions:
   contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
   # Continuous Integration (CI)
@@ -91,7 +83,6 @@ jobs:
 
   # Deploy
   deploy-development:
-    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -101,7 +92,6 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
-    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -111,7 +101,6 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -121,7 +110,6 @@ jobs:
       K8S_NAMESPACE: production
 
   create-release:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [deploy-production] # Executa após o deploy de produção
     runs-on: ubuntu-latest
     steps:
@@ -145,87 +133,83 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token para autenticação
 
+  # Notificar sucesso ou falha para desenvolvimento
+  notify-development:
+    needs: [deploy-development]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Success - Development
+        if: success() && needs.deploy-development.result == 'success'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  # # Notificar sucesso ou falha para desenvolvimento
-  # notify-development:
-  #   if: github.ref == 'refs/heads/develop'
-  #   needs: [deploy-development]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Notify Success - Development
-  #       if: success() && needs.deploy-development.result == 'success'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\\n\\n*Commit:* ${{ github.event.head_commit.message }}\\n*Branch:* ${{ github.ref_name }}\\n*Repository:* ${{ github.repository }}\\n*URL:* ${{ github.event.head_commit.url }}\\n*Committer:* ${{ github.actor }}\\n*SHA:* ${{ github.sha }}"
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Notify Failure - Development
+        if: failure() && needs.deploy-development.result == 'failure'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "❌ CI/CD Pipeline failed for *Development* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  #     - name: Notify Failure - Development
-  #       if: failure() && needs.deploy-development.result == 'failure'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "❌ CI/CD Pipeline failed for *Development* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+  # Notificar sucesso ou falha para staging
+  notify-staging:
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Success - Staging
+        if: success() && needs.deploy-staging.result == 'success'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "✅ CI/CD Pipeline completed successfully for *Staging* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  # # Notificar sucesso ou falha para staging
-  # notify-staging:
-  #   if: github.ref == 'refs/heads/develop'
-  #   needs: [deploy-staging]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Notify Success - Staging
-  #       if: success() && needs.deploy-staging.result == 'success'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "✅ CI/CD Pipeline completed successfully for *Development* environment!\\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\\n\\n*Commit:* ${{ github.event.head_commit.message }}\\n*Branch:* ${{ github.ref_name }}\\n*Repository:* ${{ github.repository }}\\n*URL:* ${{ github.event.head_commit.url }}\\n*Committer:* ${{ github.actor }}\\n*SHA:* ${{ github.sha }}"
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Notify Failure - Staging
+        if: failure() && needs.deploy-staging.result == 'failure'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "❌ CI/CD Pipeline failed for *Staging* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  #     - name: Notify Failure - Staging
-  #       if: failure() && needs.deploy-staging.result == 'failure'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "❌ CI/CD Pipeline failed for *Staging* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+  # Notificar sucesso ou falha para produção
+  notify-production:
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Success - Production
+        if: success() && needs.deploy-production.result == 'success'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "✅ CI/CD Pipeline completed successfully for *Production* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-  # # Notificar sucesso ou falha para produção
-  # notify-production:
-  #   if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
-  #   needs: [deploy-production]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Notify Success - Production
-  #       if: success() && needs.deploy-production.result == 'success'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "✅ CI/CD Pipeline completed successfully for *Production* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}"
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-
-  #     - name: Notify Failure - Production
-  #       if: failure() && needs.deploy-production.result == 'failure'
-  #       uses: slackapi/slack-github-action@v1.23.0
-  #       with:
-  #         payload: |
-  #           {
-  #             "text": "❌ CI/CD Pipeline failed for *Production* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
-  #           }
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Notify Failure - Production
+        if: failure() && needs.deploy-production.result == 'failure'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "❌ CI/CD Pipeline failed for *Production* environment!\nExecuted by ${{ github.actor }} in run #${{ github.run_number }}\n\n*Commit:* ${{ github.event.head_commit.message }}\n*Branch:* ${{ github.ref_name }}\n*Repository:* ${{ github.repository }}\n*URL:* ${{ github.event.head_commit.url }}\n*Committer:* ${{ github.actor }}\n*SHA:* ${{ github.sha }}\n\nPlease check the logs for more details."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
