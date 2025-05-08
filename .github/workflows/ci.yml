@@ -119,25 +119,51 @@ jobs:
       K8S_NAMESPACE: production
 
   create-release:
-    needs: [deploy-production] # Executa após o deploy de produção
+    needs: [deploy-production]
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/release/')
     steps:
-      # Checkout do repositório
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Criar uma nova release
+      - name: Get version and branch name
+        id: get_version
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Create Git tag if not exists
+        run: |
+          git fetch --tags
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} já existe."
+          else
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+          fi
+        env:
+          VERSION: ${{ env.VERSION }}
+
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ github.run_number }} # Nome da tag (incremental com base no número da execução)
-          release_name: 'Release v${{ github.run_number }}' # Nome da release
+          tag_name: v${{ env.VERSION }}
+          release_name: 'Release v${{ env.VERSION }}'
           body: |
             ## Release Notes
             - Deploy realizado com sucesso para o ambiente de produção.
             - Commit: ${{ github.event.head_commit.message }}
             - Autor: ${{ github.actor }}
-          draft: false # Define se a release será um rascunho
-          prerelease: false # Define se a release será uma pré-release
+          draft: false
+          prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token para autenticação
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete release branch
+        run: |
+          git push origin --delete "${BRANCH_NAME}"
+          echo "Branch ${BRANCH_NAME} deletada com sucesso."
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
