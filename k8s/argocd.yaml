@@ -1,14 +1,18 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: v1
+kind: Service
 metadata:
-  name: ogeraldoluiz
-  namespace: argocd
+  name: argocd-server
+  namespace: development
 spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/ogeraldoluizcom/ogeraldoluiz'
-    targetRevision: HEAD
-    path: k8s
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: development  # pode ser substituído dinamicamente no GitHub Actions
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: 8080
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: argocd-server
