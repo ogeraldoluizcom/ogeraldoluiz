@@ -3,10 +3,16 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 
 on:
   push:
-    branches: [develop]
-  # pull_request:
-  #   branches: [main]
-  workflow_dispatch:
+    branches:
+      - develop # Deploy em development
+      - release/** # Deploy em staging
+      - main # Deploy em produção (idealmente manual)
+  pull_request:
+    branches:
+      - develop
+      - release/**
+      - main
+  workflow_dispatch: # Permite disparo manual (útil para produção)
 
 permissions:
   contents: write
@@ -83,6 +89,7 @@ jobs:
 
   # Deploy
   deploy-development:
+    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -92,6 +99,7 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
+    if: startsWith(github.ref, 'refs/heads/release/')
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -101,6 +109,7 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
+    if: github.ref == 'refs/heads/main'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
