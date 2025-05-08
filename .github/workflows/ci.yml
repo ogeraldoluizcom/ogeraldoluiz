@@ -3,13 +3,21 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 
 on:
   push:
-    branches: [main]
-  # pull_request:
-  #   branches: [main]
+    branches: [develop]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment to deploy'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
 
 permissions:
   contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
   # Continuous Integration (CI)
@@ -83,6 +91,7 @@ jobs:
 
   # Deploy
   deploy-development:
+    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -92,6 +101,7 @@ jobs:
       K8S_NAMESPACE: development
 
   deploy-staging:
+    if: github.ref == 'refs/heads/develop'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -101,6 +111,7 @@ jobs:
       K8S_NAMESPACE: staging
 
   deploy-production:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [CD]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
@@ -110,6 +121,7 @@ jobs:
       K8S_NAMESPACE: production
 
   create-release:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [deploy-production] # Executa após o deploy de produção
     runs-on: ubuntu-latest
     steps:
@@ -135,6 +147,7 @@ jobs:
 
   # Notificar sucesso ou falha para desenvolvimento
   notify-development:
+    if: github.ref == 'refs/heads/develop'
     needs: [deploy-development]
     runs-on: ubuntu-latest
     steps:
@@ -162,6 +175,7 @@ jobs:
 
   # Notificar sucesso ou falha para staging
   notify-staging:
+    if: github.ref == 'refs/heads/develop'
     needs: [deploy-staging]
     runs-on: ubuntu-latest
     steps:
@@ -189,6 +203,7 @@ jobs:
 
   # Notificar sucesso ou falha para produção
   notify-production:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     needs: [deploy-production]
     runs-on: ubuntu-latest
     steps:
