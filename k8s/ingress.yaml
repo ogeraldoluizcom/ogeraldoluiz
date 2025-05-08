@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ogeraldoluiz
-  namespace: production
+  namespace: development
   labels:
     name: ogeraldoluiz
   annotations:
@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: ogeraldoluiz.com
+    - host: development.ogeraldoluiz.com
       http:
         paths:
           - pathType: Prefix
