@@ -184,7 +184,7 @@ jobs:
             ENV="production"
           fi
 
-          curl -X POST https://n8n.ogeraldoluiz.com/deploy-notification \
+          curl -X POST https://n8n.ogeraldoluiz.com/webhook/deploy-notification \
           -H 'Content-Type: application/json' \
           -d '{
             "environment": "'"$ENV"'",
