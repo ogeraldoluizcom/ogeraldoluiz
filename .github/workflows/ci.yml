@@ -158,67 +158,67 @@ jobs:
         run: |
           ENV=""
           COLOR=""
-          if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+          if [ "${GITHUB_REF}" == "refs/heads/develop" ]; then
             ENV="development"
             COLOR="3447003"  # Azul
-          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+          elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
             ENV="staging"
             COLOR="15105570"  # Roxo
-          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          elif [ "${GITHUB_REF}" == "refs/heads/main" ]; then
             ENV="production"
             COLOR="3066993"  # Verde
           fi
 
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "embeds": [{
-                "title": "🚀 Novo Deploy Realizado",
-                "color": '"$COLOR"',
-                "fields": [
-                  {
-                    "name": "👤 Autor",
-                    "value": "'${{ github.actor }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "✉️ Email",
-                    "value": "'${{ github.event.head_commit.author.email }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "📦 Repositório",
-                    "value": "'${{ github.repository }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "🔀 Branch",
-                    "value": "'${{ github.ref_name }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "💬 Mensagem do Commit",
-                    "value": "'${{ github.event.head_commit.message }}'",
-                    "inline": false
-                  },
-                  {
-                    "name": "📄 Commit",
-                    "value": "'${{ github.sha }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "📅 Data",
-                    "value": "'${{ github.event.head_commit.timestamp }}'",
-                    "inline": true
-                  },
-                  {
-                    "name": "🚀 Ambiente",
-                    "value": '"$ENV"'"
-                    "inline": true
-                  }
-
-                ],
-                "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
-              }]
-            }' \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+            -d @- ${{ secrets.DISCORD_WEBHOOK_URL }} <<EOF
+          {
+            "embeds": [{
+              "title": "🚀 Novo Deploy Realizado",
+              "color": $COLOR,
+              "fields": [
+                {
+                  "name": "👤 Autor",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "✉️ Email",
+                  "value": "${{ github.event.head_commit.author.email }}",
+                  "inline": true
+                },
+                {
+                  "name": "📦 Repositório",
+                  "value": "${{ github.repository }}",
+                  "inline": true
+                },
+                {
+                  "name": "🔀 Branch",
+                  "value": "${{ github.ref_name }}",
+                  "inline": true
+                },
+                {
+                  "name": "💬 Mensagem do Commit",
+                  "value": "${{ github.event.head_commit.message }}",
+                  "inline": false
+                },
+                {
+                  "name": "📄 Commit",
+                  "value": "${{ github.sha }}",
+                  "inline": true
+                },
+                {
+                  "name": "📅 Data",
+                  "value": "${{ github.event.head_commit.timestamp }}",
+                  "inline": true
+                },
+                {
+                  "name": "🚀 Ambiente",
+                  "value": "$ENV",
+                  "inline": true
+                }
+              ],
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            }]
+          }
+          EOF
