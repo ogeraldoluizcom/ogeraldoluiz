@@ -114,7 +114,7 @@ jobs:
       K8S_NAMESPACE: production
 
   create-release:
-    needs: [deploy-production]
+    needs: [deploy-staging]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
