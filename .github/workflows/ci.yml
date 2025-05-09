@@ -167,3 +167,18 @@ jobs:
           echo "Branch ${BRANCH_NAME} deletada com sucesso."
         env:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
+
+  notify-n8n:
+    needs: [deploy-development, deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify n8n
+        run: |
+          curl -X POST https://n8n.ogeraldoluiz.com/webhook/deploy-notification \
+          -H 'Content-Type: application/json' \
+          -d '{
+            "environment": "${{ needs.deploy-development.result == 'success' && 'development' || (needs.deploy-staging.result == 'success' && 'staging' || 'production') }}",
+            "url": "${{ github.server_url }}/${{ github.repository }}",
+            "author": "${{ github.actor }}",
+            "version": "${{ github.run_number }}"
+          }'
