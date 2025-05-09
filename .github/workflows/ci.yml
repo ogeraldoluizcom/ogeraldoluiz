@@ -149,27 +149,51 @@ jobs:
         env:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
 
-  notify-n8n:
+  notify-discord:
     needs: [deploy-production, deploy-development, deploy-staging]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Notify n8n
+      - name: Notify Discord
         run: |
           ENV=""
+          COLOR=""
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
             ENV="development"
+            COLOR="3447003"  # Azul
           elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
             ENV="staging"
+            COLOR="15105570"  # Roxo
           elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
             ENV="production"
+            COLOR="3066993"  # Verde
           fi
 
-          curl -X POST https://n8n.ogeraldoluiz.com/webhook/deploy-notification \
-          -H 'Content-Type: application/json' \
-          -d '{
-            "environment": "'"$ENV"'",
-            "url": "${{ github.server_url }}/${{ github.repository }}",
-            "author": "${{ github.actor }}",
-            "version": "${{ github.run_number }}"
-          }'
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "🚀 Novo Deploy Realizado",
+                "description": "**Ambiente:** '"$ENV"'",
+                "color": '"$COLOR"',
+                "fields": [
+                  {
+                    "name": "🔗 Repositório",
+                    "value": "'${{ github.server_url }}/${{ github.repository }}'",
+                    "inline": false
+                  },
+                  {
+                    "name": "👤 Autor",
+                    "value": "'${{ github.actor }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "📦 Versão",
+                    "value": "#'${{ github.run_number }}'",
+                    "inline": true
+                  }
+                ],
+                "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+              }]
+            }' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
