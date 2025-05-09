@@ -131,7 +131,7 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: v${{ env.VERSION }}
-          release_name: 'Release v${{ env.VERSION }}'
+          release_name: 'Release ${{ env.VERSION }}'
           body: |
             ## Release Notes
             - Deploy realizado com sucesso para o ambiente de produção.
