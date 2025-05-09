@@ -145,8 +145,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Notify Discord Success
-  notify-success:
+  # Notify Discord
+  notify-discord:
     needs: [deploy-production, deploy-development, deploy-staging]
     runs-on: ubuntu-latest
     if: always()
@@ -213,47 +213,6 @@ jobs:
                   "name": "🚀 Ambiente",
                   "value": "$ENV",
                   "inline": true
-                }
-              ],
-              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            }]
-          }
-          EOF
-
-  # Notify Discord Failure
-  notify-if-cancelled:
-    if: ${{ github.event.workflow_run.conclusion == 'cancelled' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Enviar notificação de cancelamento para Discord
-        run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d @- ${{ secrets.DISCORD_WEBHOOK_URL }} <<EOF
-          {
-            "embeds": [{
-              "title": "🛑 Pipeline Cancelada",
-              "color": 15158332,
-              "fields": [
-                {
-                  "name": "📦 Repositório",
-                  "value": "${{ github.repository }}",
-                  "inline": true
-                },
-                {
-                  "name": "🔀 Branch",
-                  "value": "${{ github.event.workflow_run.head_branch }}",
-                  "inline": true
-                },
-                {
-                  "name": "👤 Quem acionou",
-                  "value": "${{ github.event.workflow_run.actor.login }}",
-                  "inline": true
-                },
-                {
-                  "name": "💬 Pipeline",
-                  "value": "${{ github.event.workflow_run.name }}",
-                  "inline": false
                 }
               ],
               "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
