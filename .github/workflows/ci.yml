@@ -4,15 +4,10 @@ run-name: Pipeline CI/CD executed by ${{ github.actor }} in ${{ github.run_numbe
 on:
   push:
     branches:
-      - develop # Deploy em development
-      - release/** # Deploy em staging
-      - main # Deploy em produção (idealmente manual)
-  # pull_request:
-  #   branches:
-  #     - develop
-  #     - release/**
-  #     - main
-  workflow_dispatch: # Permite disparo manual (útil para produção)
+      - develop
+      - release/**
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
