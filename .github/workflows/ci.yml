@@ -150,6 +150,7 @@ jobs:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
 
   notify-n8n:
+    needs: [deploy-production, deploy-development, deploy-staging]
     runs-on: ubuntu-latest
     if: always()
     steps:
