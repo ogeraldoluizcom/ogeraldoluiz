@@ -150,21 +150,20 @@ jobs:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
 
   notify-n8n:
-    needs: [deploy-development, deploy-staging, deploy-production]
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - name: Define environment
-        run: |
-          if [ "${{ needs.deploy-development.result }}" == "success" ]; then
-            echo "ENV=development" >> $GITHUB_ENV
-          elif [ "${{ needs.deploy-staging.result }}" == "success" ]; then
-            echo "ENV=staging" >> $GITHUB_ENV
-          else
-            echo "ENV=production" >> $GITHUB_ENV
-          fi
-
       - name: Notify n8n
         run: |
+          ENV=""
+          if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            ENV="development"
+          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+            ENV="staging"
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            ENV="production"
+          fi
+
           curl -X POST https://n8n.ogeraldoluiz.com/webhook/deploy-notification \
           -H 'Content-Type: application/json' \
           -d '{
