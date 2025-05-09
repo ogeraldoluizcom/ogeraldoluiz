@@ -193,24 +193,49 @@ jobs:
             -d '{
               "embeds": [{
                 "title": "🚀 Novo Deploy Realizado",
-                "description": "**Ambiente:** '"$ENV"'",
                 "color": '"$COLOR"',
                 "fields": [
-                  {
-                    "name": "🔗 Repositório",
-                    "value": "'${{ github.server_url }}/${{ github.repository }}'",
-                    "inline": false
-                  },
                   {
                     "name": "👤 Autor",
                     "value": "'${{ github.actor }}'",
                     "inline": true
                   },
                   {
-                    "name": "📦 Versão",
-                    "value": "#'${{ github.run_number }}'",
+                    "name": "✉️ Email",
+                    "value": "'${{ github.event.head_commit.author.email }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "📦 Repositório",
+                    "value": "'${{ github.repository }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "🔀 Branch",
+                    "value": "'${{ github.ref_name }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "💬 Mensagem do Commit",
+                    "value": "'${{ github.event.head_commit.message }}'",
+                    "inline": false
+                  },
+                  {
+                    "name": "📄 Commit",
+                    "value": "'${{ github.sha }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "📅 Data",
+                    "value": "'${{ github.event.head_commit.timestamp }}'",
+                    "inline": true
+                  },
+                  {
+                    "name": "🚀 Ambiente",
+                    "value": '"$ENV"'"
                     "inline": true
                   }
+
                 ],
                 "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
               }]
