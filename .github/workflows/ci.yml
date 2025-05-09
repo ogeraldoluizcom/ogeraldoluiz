@@ -141,3 +141,35 @@ jobs:
           prerelease: false # Define se a release será uma pré-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token para autenticação
+
+      - name: Delete release branch
+        run: |
+          git push origin --delete "${BRANCH_NAME}"
+          echo "Branch ${BRANCH_NAME} deletada com sucesso."
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+
+  notify-n8n:
+    needs: [deploy-development, deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Define environment
+        run: |
+          if [ "${{ needs.deploy-development.result }}" == "success" ]; then
+            echo "ENV=development" >> $GITHUB_ENV
+          elif [ "${{ needs.deploy-staging.result }}" == "success" ]; then
+            echo "ENV=staging" >> $GITHUB_ENV
+          else
+            echo "ENV=production" >> $GITHUB_ENV
+          fi
+
+      - name: Notify n8n
+        run: |
+          curl -X POST https://n8n.ogeraldoluiz.com/webhook/deploy-notification \
+          -H 'Content-Type: application/json' \
+          -d '{
+            "environment": "'"$ENV"'",
+            "url": "${{ github.server_url }}/${{ github.repository }}",
+            "author": "${{ github.actor }}",
+            "version": "${{ github.run_number }}"
+          }'
