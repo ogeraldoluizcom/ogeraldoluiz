@@ -82,7 +82,7 @@ jobs:
             geraldobl58/ogeraldoluiz:v${{ github.run_number }}
             geraldobl58/ogeraldoluiz:latest
 
-  # Deploy
+  # Deploy development
   deploy-development:
     if: github.ref == 'refs/heads/develop'
     needs: [CD]
@@ -93,6 +93,7 @@ jobs:
       environment-url: https://development.ogeraldoluiz.com
       K8S_NAMESPACE: development
 
+  # Deploy staging
   deploy-staging:
     if: startsWith(github.ref, 'refs/heads/release/')
     needs: [CD]
@@ -103,6 +104,7 @@ jobs:
       environment-url: https://staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
 
+  # Deploy production
   deploy-production:
     if: github.ref == 'refs/heads/main'
     needs: [CD]
@@ -113,6 +115,7 @@ jobs:
       environment-url: https://ogeraldoluiz.com
       K8S_NAMESPACE: production
 
+  # Create GitHub Release
   create-release:
     needs: [deploy-staging]
     runs-on: ubuntu-latest
@@ -130,8 +133,8 @@ jobs:
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ env.VERSION }}
-          release_name: 'Release v${{ env.VERSION }}'
+          tag_name: ${{ env.VERSION }}
+          release_name: 'Release ${{ env.VERSION }}'
           body: |
             ## Release Notes
             - Deploy realizado com sucesso para o ambiente de produção.
@@ -142,6 +145,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # Notify Discord
   notify-discord:
     needs: [deploy-production, deploy-development, deploy-staging]
     runs-on: ubuntu-latest
