@@ -12,7 +12,7 @@ export const SocialLink = ({ href, children }: SocialLinkProps) => (
     className="
       bg-indigo-500
       rounded-full
-      p-3
+      p-2
       duration-300
       transition-transform
       ease-in-out

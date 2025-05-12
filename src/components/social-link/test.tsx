@@ -25,7 +25,7 @@ describe('<SocialLink />', () => {
     render(<SocialLink href="https://example.com">Example</SocialLink>)
     const linkElement = screen.getByRole('link', { name: /example/i })
     expect(linkElement).toHaveClass(
-      'bg-indigo-500 rounded-full p-3 duration-300 transition-transform ease-in-out transform hover:scale-110'
+      'bg-indigo-500 rounded-full p-2 duration-300 transition-transform ease-in-out transform hover:scale-110'
     )
   })
 })
