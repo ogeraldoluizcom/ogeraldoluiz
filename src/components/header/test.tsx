@@ -1,12 +1,29 @@
 import { render, screen } from '@testing-library/react'
-
+import '@testing-library/jest-dom'
 import { Header } from '.'
 
-describe('<Main />', () => {
-  it('should render the heading', () => {
-    const { container } = render(<Header />)
+jest.mock('../navbar', () => ({
+  Navbar: () => <nav data-testid="navbar">Navbar</nav>
+}))
 
-    expect(screen.getByRole('heading', { name: /header/i })).toBeInTheDocument()
-    expect(container.firstChild).toMatchSnapshot()
+jest.mock('../social', () => ({
+  Social: () => <div data-testid="social">Social</div>
+}))
+
+describe('<Header />', () => {
+  it('renders the Navbar component', () => {
+    render(<Header />)
+
+    const navbar = screen.getByTestId('navbar')
+    expect(navbar).toBeInTheDocument()
+    expect(navbar).toHaveTextContent('Navbar')
+  })
+
+  it('renders the Social component', () => {
+    render(<Header />)
+
+    const social = screen.getByTestId('social')
+    expect(social).toBeInTheDocument()
+    expect(social).toHaveTextContent('Social')
   })
 })

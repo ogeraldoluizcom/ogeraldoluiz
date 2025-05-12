@@ -13,5 +13,8 @@ module.exports = {
   modulePaths: ['<rootDir>/src/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }]
+  },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1' // Mapeia o alias "@" para a pasta "src"
   }
 }
