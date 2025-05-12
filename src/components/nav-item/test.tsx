@@ -30,7 +30,6 @@ describe('<NavItem />', () => {
 
     render(<NavItem name={name} href={href} isActive={isActive} />)
 
-    // Verifica se o nome está presente
     const linkElement = screen.getByText(name)
     expect(linkElement).toBeInTheDocument()
 

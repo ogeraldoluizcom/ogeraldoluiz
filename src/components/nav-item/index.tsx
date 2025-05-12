@@ -25,10 +25,11 @@ export const NavItem = ({
             hover:bg-indigo-500
             hover:font-medium
             rounded-lg
-            p-4
+            p-3
+            text-[12px]
             transition-colors
             duration-300
-            ease-in-out
+            ease-
             transform
             hover:scale-110
           `,
