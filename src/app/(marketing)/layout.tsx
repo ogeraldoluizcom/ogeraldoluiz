@@ -1,16 +1,22 @@
 import { Header } from '@/components/header'
+import { HeaderSidebar } from '@/components/header-mobile'
+import { Logo } from '@/components/logo'
 
-type Props = {
+interface MarketingLayout {
   children: React.ReactNode
 }
 
-const MarketingLayout = ({ children }: Props) => {
+const MarketingLayout = ({ children }: MarketingLayout) => {
   return (
     <div className="flex flex-col min-h-screen max-w-screen-xl mx-auto">
-      <div className="space-y-8">
+      <div className="hidden md:block">
         <Header />
-        <main>{children}</main>
       </div>
+      <div className="md:hidden flex items-center justify-between px-4 py-2">
+        <Logo />
+        <HeaderSidebar />
+      </div>
+      <main>{children}</main>
     </div>
   )
 }
