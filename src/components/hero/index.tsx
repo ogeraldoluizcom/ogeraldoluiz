@@ -6,41 +6,24 @@ import { ArrowRightIcon } from 'lucide-react'
 
 import { AboutMe } from '@/components/about-me'
 import { Typed } from '@/components/typed'
+import { Button } from '@/components/ui/button'
 
 export const Hero = () => {
   return (
     <>
-      <div>
-        <h1 className="text-[36px] font-bold text-muted-foreground">
+      <div className="space-y-5">
+        <h1 className="text-2xl sm:text-4xl  font-bold text-muted-foreground">
           👋 Olá, eu sou <b className="text-indigo-500">Geraldo Luiz</b>
         </h1>
-        <Typed />
+        <div className="hidden md:block">
+          <Typed />
+        </div>
         <AboutMe />
-        <Link
-          href="/contato"
-          className="
-            inline-flex
-            items-center
-            justify-center
-            mt-4
-            p-4
-            text-md
-            font-medium
-            text-white
-            bg-indigo-500
-            border
-            border-transparent
-            rounded-md
-            shadow-sm
-            hover:bg-indigo-600
-            focus:outline-none
-            focus:ring-2
-            focus:ring-offset-2
-            focus:ring-indigo-500
-          "
-        >
-          Entre em contato <ArrowRightIcon className="ml-2 size-4" />
-        </Link>
+        <Button asChild size="lg" className="w-full">
+          <Link href="/contact">
+            Entre em contato <ArrowRightIcon className="ml-2 size-4" />
+          </Link>
+        </Button>
       </div>
       <div
         className="
@@ -51,6 +34,8 @@ export const Hero = () => {
           w-full
           h-[650px]
           rounded-lg
+         hidden
+         md:block
         "
       />
     </>
