@@ -4,7 +4,7 @@ import { Social } from '../social'
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between pt-4">
+    <header className="flex items-center justify-between px-4 py-4">
       <div>
         <Logo />
       </div>
