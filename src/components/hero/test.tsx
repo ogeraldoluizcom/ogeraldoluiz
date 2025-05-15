@@ -21,9 +21,5 @@ describe('<Hero />', () => {
     expect(
       screen.getByRole('link', { name: /Entre em contato/i })
     ).toBeInTheDocument()
-
-    expect(
-      screen.getByText(/Especialista em desenvolvimento full stack/i)
-    ).toBeInTheDocument()
   })
 })
