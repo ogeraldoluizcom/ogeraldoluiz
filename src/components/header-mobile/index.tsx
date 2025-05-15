@@ -11,7 +11,7 @@ import { Menu } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { HeaderMobileLinks } from '@/components/header-mobile-links'
 
-export const HeaderSidebar = () => {
+export const HeaderMobile = () => {
   return (
     <Sheet>
       <SheetTrigger className="md:hidden">
