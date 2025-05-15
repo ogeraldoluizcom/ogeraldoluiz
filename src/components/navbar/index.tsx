@@ -15,17 +15,17 @@ export const Navbar = () => {
     },
     {
       name: 'Sobre',
-      href: '/about',
+      href: '#',
       active: pathname === '/about'
     },
     {
       name: 'Cases',
-      href: '/cases',
+      href: '#',
       active: pathname === '/cases'
     },
     {
       name: 'Contato',
-      href: '/contact',
+      href: '#',
       active: pathname === '/contact'
     }
   ]

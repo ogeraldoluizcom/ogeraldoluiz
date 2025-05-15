@@ -1,0 +1,46 @@
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import { ExperienceItem } from '.'
+
+describe('ExperienceItem', () => {
+  it('should correctly render the provided data', () => {
+    const props = {
+      company: 'Tech Company',
+      role: 'Software Engineer',
+      type: 'Full-time',
+      description: 'Desenvolvimento de aplicações web modernas.',
+      duration: 'Jan 2020 - Dez 2023'
+    }
+
+    render(<ExperienceItem {...props} />)
+
+    expect(screen.getByText(props.company)).toBeInTheDocument()
+
+    expect(
+      screen.getByText(`${props.role} (${props.duration})`)
+    ).toBeInTheDocument()
+
+    expect(screen.getByText(props.type)).toBeInTheDocument()
+
+    expect(screen.getByText(props.description)).toBeInTheDocument()
+
+    const image = screen.getByAltText('Hard Skills')
+    expect(image).toBeInTheDocument()
+  })
+
+  it('should render correctly without the duration', () => {
+    const props = {
+      company: 'Tech Company',
+      role: 'Software Engineer',
+      type: 'Full-time',
+      description: 'Desenvolvimento de aplicações web modernas.',
+      duration: null
+    }
+
+    render(<ExperienceItem {...props} />)
+
+    expect(screen.getByText(props.role)).toBeInTheDocument()
+    expect(screen.queryByText(/\(/)).not.toBeInTheDocument()
+  })
+})

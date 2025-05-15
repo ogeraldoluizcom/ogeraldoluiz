@@ -1,5 +1,5 @@
 import { Header } from '@/components/header'
-import { HeaderSidebar } from '@/components/header-mobile'
+import { HeaderMobile } from '@/components/header-mobile'
 import { Logo } from '@/components/logo'
 
 interface MarketingLayout {
@@ -14,7 +14,7 @@ const MarketingLayout = ({ children }: MarketingLayout) => {
       </div>
       <div className="md:hidden flex items-center justify-between px-4 py-2">
         <Logo />
-        <HeaderSidebar />
+        <HeaderMobile />
       </div>
       <main>{children}</main>
     </div>
