@@ -1,11 +1,15 @@
-import { Header } from '@/components/header'
+import { Hero } from '@/components/hero'
+import { SectionExperience } from '@/components/section-experience'
 
 const Home = () => {
   return (
-    <div>
-      <div className="font-bold">Home</div>
-      <div className="text-2xl">Welcome to the - v1.0.1</div>
-      <Header />
+    <div className="px-4 space-y-8">
+      <section>
+        <Hero />
+      </section>
+      <section>
+        <SectionExperience />
+      </section>
     </div>
   )
 }
