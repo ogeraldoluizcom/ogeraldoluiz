@@ -1,28 +1,33 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+
 import { AboutMe } from '.'
 
 describe('<AboutMe />', () => {
-  it('renders without crashing', () => {
+  it('renders all the expected paragraphs', () => {
     render(<AboutMe />)
-    expect(
-      screen.getByText(/Especialista em desenvolvimento full stack/i)
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(/Meu objetivo é criar soluções digitais personalizadas/i)
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(/- Desenvolvimento de aplicações web e APIs robustas/i)
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(/- Implantação e gestão de pipelines DevOps modernas/i)
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(/- Automações com n8n, integração de sistemas/i)
-    ).toBeInTheDocument()
+
     expect(
       screen.getByText(
-        /- Consultoria técnica e mentoria para times de engenharia/i
+        /Como desenvolvedor especializado, meu objetivo é criar e implementar soluções digitais personalizadas/i
+      )
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByText(
+        /Com sólida experiência em desenvolvimento frontend e um profundo conhecimento de SEO/i
+      )
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByText(
+        /Aumento de Visibilidade: Estratégias robustas para posicionar sua marca/i
+      )
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByText(
+        /Experiência do Usuário Otimizada: Produtos projetados para oferecer rapidez/i
       )
     ).toBeInTheDocument()
   })
