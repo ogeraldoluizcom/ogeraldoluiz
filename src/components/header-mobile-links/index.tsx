@@ -4,17 +4,17 @@ import { Button } from '../ui/button'
 export const HeaderMobileLinks = () => {
   return (
     <div className="flex items-center justify-center flex-col space-y-5 mt-4">
-      <Button asChild className="w-full">
+      <Button asChild variant="link" className="w-full">
         <Link href="/">Home</Link>
       </Button>
-      <Button asChild className="w-full">
-        <Link href="/about">Sobre</Link>
+      <Button asChild variant="link" className="w-full">
+        <Link href="#">Sobre</Link>
       </Button>
-      <Button asChild className="w-full">
-        <Link href="/cases">Cases</Link>
+      <Button asChild variant="link" className="w-full">
+        <Link href="#">Cases</Link>
       </Button>
-      <Button asChild className="w-full">
-        <Link href="/contact">Contato</Link>
+      <Button asChild variant="link" className="w-full">
+        <Link href="#">Contato</Link>
       </Button>
     </div>
   )
