@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button'
 
 export const Hero = () => {
   return (
-    <>
-      <div className="space-y-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-2">
         <h1 className="text-2xl sm:text-4xl  font-bold text-muted-foreground">
           👋 Olá, eu sou <b className="text-indigo-500">Geraldo Luiz</b>
         </h1>
@@ -38,6 +38,6 @@ export const Hero = () => {
          md:block
         "
       />
-    </>
+    </div>
   )
 }
