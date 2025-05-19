@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
- install-cert-manager:
+  install-cert-manager:
     runs-on: ubuntu-latest
     steps:
       - name: Set Kubernetes Context
