@@ -64,3 +64,7 @@ jobs:
             k8s/service.yaml
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+
+      - name: Apply ClusterIssuer for Let's Encrypt
+        run: |
+          kubectl apply -f k8s/cluster-issuer.yaml

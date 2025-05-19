@@ -13,6 +13,13 @@ permissions:
   contents: write
 
 jobs:
+  install-cert-manager:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cert-Manager
+        run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+
   # Continuous Integration (CI)
   CI:
     runs-on: ubuntu-latest
