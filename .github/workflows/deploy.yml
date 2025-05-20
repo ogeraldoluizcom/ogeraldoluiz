@@ -67,4 +67,29 @@ jobs:
 
       - name: Apply ClusterIssuer for Let's Encrypt
         run: |
-          kubectl apply -f k8s/cluster-issuer.yaml
+          cat <<EOF | kubectl apply -f -
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: letsencrypt-${{ inputs.K8S_NAMESPACE }}
+          spec:
+            acme:
+              email: geraldobl58@gmail.com
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: letsencrypt-${{ inputs.K8S_NAMESPACE }}
+              solvers:
+              - http01:
+                  ingress:
+                    class: nginx
+          EOF
+
+          # Wait a bit for cert-manager to be ready
+            sleep 10
+
+      - name: Verify Certificate
+        run: |
+          echo "Verifying certificate..."
+          kubectl get certificate -n ${{ inputs.K8S_NAMESPACE }}
+          kubectl describe certificate tls-cert-${{ inputs.K8S_NAMESPACE }} -n ${{ inputs.K8S_NAMESPACE }}
+          echo "If certificate is not ready, it may take a few minutes to be issued."
