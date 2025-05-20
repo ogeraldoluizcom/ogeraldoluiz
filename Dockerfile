@@ -9,6 +9,8 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 RUN npm ci
 
+RUN npm install sharp
+
 # === Build the application ===
 FROM base AS builder
 WORKDIR /app
