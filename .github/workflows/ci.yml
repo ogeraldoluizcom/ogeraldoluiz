@@ -13,6 +13,19 @@ permissions:
   contents: write
 
 jobs:
+  install-cert-manager:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
+
+      - name: Install Cert-Manager
+        run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+
   # Continuous Integration (CI)
   CI:
     runs-on: ubuntu-latest
@@ -129,6 +142,15 @@ jobs:
         run: |
           echo "VERSION=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          if git ls-remote --tags origin | grep -q "refs/tags/${VERSION}$"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
