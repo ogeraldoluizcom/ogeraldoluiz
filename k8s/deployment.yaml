@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ogeraldoluiz
-  namespace: staging
+  namespace: production
   labels:
     app: ogeraldoluiz
 spec:
@@ -22,7 +22,7 @@ spec:
             - containerPort: 3000
           env:
             - name: NODE_ENV
-              value: staging
+              value: production
           resources:
             limits:
               cpu: 150m
