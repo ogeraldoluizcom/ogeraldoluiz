@@ -4,10 +4,11 @@ metadata:
   name: ogeraldoluiz
   namespace: development
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-development
 spec:
+  ingressClassName: nginx
   rules:
-    - host: staging.ogeraldoluiz.com
+    - host: development.ogeraldoluiz.com
       http:
         paths:
           - path: /
@@ -19,5 +20,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - staging.ogeraldoluiz.com
-      secretName: tls-cert-staging
+        - development.ogeraldoluiz.com
+      secretName: tls-cert-development
