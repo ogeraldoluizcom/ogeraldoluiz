@@ -3,22 +3,15 @@ kind: Ingress
 metadata:
   name: ogeraldoluiz
   namespace: development
-  labels:
-    name: ogeraldoluiz
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-development
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "false"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
-  ingressClassName: nginx
   rules:
-    - host: development.ogeraldoluiz.com
+    - host: staging.ogeraldoluiz.com
       http:
         paths:
-          - pathType: Prefix
-            path: "/"
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: ogeraldoluiz
@@ -26,5 +19,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - development.ogeraldoluiz.com
-      secretName: tls-cert-development
+        - staging.ogeraldoluiz.com
+      secretName: tls-cert-staging

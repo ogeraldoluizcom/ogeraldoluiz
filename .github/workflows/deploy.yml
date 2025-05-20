@@ -47,6 +47,16 @@ jobs:
           sed -i 's|host: development.ogeraldoluiz.com|host: ${{ inputs.environment-url }}|g' k8s/ingress.yaml
           sed -i 's|https://||g' k8s/ingress.yaml
 
+      - name: Configure TLS for Environment
+        run: |
+          if [[ "${{ inputs.environment-name }}" == "production" ]]; then
+            sed -i 's|cert-manager.io/cluster-issuer: .*|cert-manager.io/cluster-issuer: letsencrypt-production|g' k8s/ingress.yaml
+            sed -i 's|secretName: tls-cert-.*|secretName: tls-cert-production|g' k8s/ingress.yaml
+          else
+            sed -i 's|cert-manager.io/cluster-issuer: .*|cert-manager.io/cluster-issuer: letsencrypt-staging|g' k8s/ingress.yaml
+            sed -i "s|secretName: tls-cert-.*|secretName: tls-cert-${{ inputs.K8S_NAMESPACE }}|g" k8s/ingress.yaml
+          fi
+
       - name: Create Namespace if Not Exists
         run: |
           kubectl get namespace ${{ inputs.K8S_NAMESPACE }} || kubectl create namespace ${{ inputs.K8S_NAMESPACE }}
@@ -65,30 +75,16 @@ jobs:
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
 
-      - name: Apply ClusterIssuer for Let's Encrypt
+      - name: Apply Let's Encrypt ClusterIssuer
         run: |
-          cat <<EOF | kubectl apply -f -
-          apiVersion: cert-manager.io/v1
-          kind: ClusterIssuer
-          metadata:
-            name: letsencrypt-staging
-          spec:
-            acme:
-              email: geraldobl58@gmail.com
-              server: https://acme-staging-v02.api.letsencrypt.org/directory
-              privateKeySecretRef:
-                name: letsencrypt-staging
-              solvers:
-              - http01:
-                  ingress:
-                    class: nginx
-          EOF
+          if [ "${{ inputs.environment-name }}" = "production" ]; then
+            kubectl apply -f k8s/clusterissuer-production.yaml
+          else
+            kubectl apply -f k8s/clusterissuer-staging.yaml
+          fi
 
-          sleep 30
-
-      - name: Verify Certificate
+      - name: Check Certificates
         run: |
-          echo "Verifying certificate..."
+          echo "Verifying certificates..."
           kubectl get certificate -n ${{ inputs.K8S_NAMESPACE }}
-          kubectl describe certificate tls-cert-${{ inputs.K8S_NAMESPACE }} -n ${{ inputs.K8S_NAMESPACE }}
-          echo "If certificate is not ready, it may take a few minutes to be issued."
+          kubectl describe certificate tls-cert-${{ inputs.K8S_NAMESPACE }} -n ${{ inputs.K8S_NAMESPACE }} || true
