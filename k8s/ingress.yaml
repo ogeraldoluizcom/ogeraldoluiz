@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: ogeraldoluiz.com
+  - host: development.ogeraldoluiz.com
     http:
       paths:
       - path: /
@@ -22,5 +22,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - ogeraldoluiz.com
+    - development.ogeraldoluiz.com
     secretName: tls-cert-production
