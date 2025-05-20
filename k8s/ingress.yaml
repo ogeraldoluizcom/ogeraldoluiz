@@ -4,21 +4,23 @@ metadata:
   name: ogeraldoluiz
   namespace: development
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-development
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   ingressClassName: nginx
   rules:
-    - host: development.ogeraldoluiz.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ogeraldoluiz
-                port:
-                  number: 80
+  - host: development.ogeraldoluiz.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ogeraldoluiz
+            port:
+              number: 80
   tls:
-    - hosts:
-        - development.ogeraldoluiz.com
-      secretName: tls-cert-development
+  - hosts:
+    - development.ogeraldoluiz.com
+    secretName: tls-cert-production
