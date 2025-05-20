@@ -74,17 +74,3 @@ jobs:
             k8s/service.yaml
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
-
-      - name: Apply Let's Encrypt ClusterIssuer
-        run: |
-          if [ "${{ inputs.environment-name }}" = "production" ]; then
-            kubectl apply -f k8s/clusterissuer-production.yaml
-          else
-            kubectl apply -f k8s/clusterissuer-staging.yaml
-          fi
-
-      - name: Check Certificates
-        run: |
-          echo "Verifying certificates..."
-          kubectl get certificate -n ${{ inputs.K8S_NAMESPACE }}
-          kubectl describe certificate tls-cert-${{ inputs.K8S_NAMESPACE }} -n ${{ inputs.K8S_NAMESPACE }} || true
