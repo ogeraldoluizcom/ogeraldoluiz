@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ogeraldoluiz
-  namespace: development
+  namespace: staging
   annotations:
     kubernetes.io/ingress.class: nginx
     ingress.kubernetes.io/tls-acme: "true"
@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: development.ogeraldoluiz.com
+  - host: staging.ogeraldoluiz.com
     http:
       paths:
       - path: /
@@ -22,5 +22,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - development.ogeraldoluiz.com
-    secretName: tls-cert-production
+    - staging.ogeraldoluiz.com
+    secretName: tls-cert-staging
