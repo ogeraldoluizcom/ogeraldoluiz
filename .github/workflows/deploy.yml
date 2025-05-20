@@ -47,16 +47,6 @@ jobs:
           sed -i 's|host: development.ogeraldoluiz.com|host: ${{ inputs.environment-url }}|g' k8s/ingress.yaml
           sed -i 's|https://||g' k8s/ingress.yaml
 
-      - name: Configure TLS for Environment
-        run: |
-          if [[ "${{ inputs.environment-name }}" == "production" ]]; then
-            sed -i 's|cert-manager.io/cluster-issuer: .*|cert-manager.io/cluster-issuer: letsencrypt-production|g' k8s/ingress.yaml
-            sed -i 's|secretName: tls-cert-.*|secretName: tls-cert-production|g' k8s/ingress.yaml
-          else
-            sed -i 's|cert-manager.io/cluster-issuer: .*|cert-manager.io/cluster-issuer: letsencrypt-staging|g' k8s/ingress.yaml
-            sed -i "s|secretName: tls-cert-.*|secretName: tls-cert-${{ inputs.K8S_NAMESPACE }}|g" k8s/ingress.yaml
-          fi
-
       - name: Create Namespace if Not Exists
         run: |
           kubectl get namespace ${{ inputs.K8S_NAMESPACE }} || kubectl create namespace ${{ inputs.K8S_NAMESPACE }}
@@ -74,17 +64,3 @@ jobs:
             k8s/service.yaml
             k8s/ingress.yaml
           images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
-
-      - name: Apply Let's Encrypt ClusterIssuer
-        run: |
-          if [ "${{ inputs.environment-name }}" = "production" ]; then
-            kubectl apply -f k8s/clusterissuer-production.yaml
-          else
-            kubectl apply -f k8s/clusterissuer-staging.yaml
-          fi
-
-      - name: Check Certificates
-        run: |
-          echo "Verifying certificates..."
-          kubectl get certificate -n ${{ inputs.K8S_NAMESPACE }}
-          kubectl describe certificate tls-cert-${{ inputs.K8S_NAMESPACE }} -n ${{ inputs.K8S_NAMESPACE }} || true
