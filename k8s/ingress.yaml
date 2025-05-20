@@ -6,6 +6,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-development
 spec:
+  ingressClassName: nginx
   rules:
     - host: development.ogeraldoluiz.com
       http:
