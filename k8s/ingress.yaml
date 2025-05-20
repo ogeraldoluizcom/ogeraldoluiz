@@ -1,3 +1,4 @@
+# ingress-acme-fix.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -5,20 +6,21 @@ metadata:
   namespace: development
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-development
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:
-    - host: development.ogeraldoluiz.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ogeraldoluiz
-                port:
-                  number: 80
+  - host: ogeraldoluiz.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ogeraldoluiz
+            port:
+              number: 80
   tls:
-    - hosts:
-        - development.ogeraldoluiz.com
-      secretName: tls-cert-development
+  - hosts:
+    - ogeraldoluiz.com
+    secretName: tls-cert-development
