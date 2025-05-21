@@ -10,7 +10,6 @@ const Home = () => {
       <section>
         <SectionExperience />
       </section>
-      <div className="bg-slate-300">Roolback</div>
     </div>
   )
 }
