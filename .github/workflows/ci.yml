@@ -90,7 +90,7 @@ jobs:
     secrets: inherit
     with:
       environment-name: development
-      environment-url: https://development.ogeraldoluiz.com
+      environment-url: development.ogeraldoluiz.com
       K8S_NAMESPACE: development
 
   # Deploy staging
@@ -101,7 +101,7 @@ jobs:
     secrets: inherit
     with:
       environment-name: staging
-      environment-url: https://staging.ogeraldoluiz.com
+      environment-url: staging.ogeraldoluiz.com
       K8S_NAMESPACE: staging
 
   # Deploy production
@@ -112,7 +112,7 @@ jobs:
     secrets: inherit
     with:
       environment-name: production
-      environment-url: https://ogeraldoluiz.com
+      environment-url: ogeraldoluiz.com
       K8S_NAMESPACE: production
 
   # Create GitHub Release
