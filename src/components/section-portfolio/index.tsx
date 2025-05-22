@@ -11,8 +11,8 @@ export const SectionPortfolio = () => {
       />
       <PortfolioItem
         imageUrl="/img/cover-wongames.png"
-        title="Portfolio"
-        description="Um portfólio pessoal construído com Next.js e Tailwind CSS."
+        title="Won Games Store"
+        description="Criação de um e-commerce de jogos, incluindo toda a parte de pagamentos."
         url="#"
       />
     </div>
