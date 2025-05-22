@@ -21,7 +21,7 @@ describe('<HeaderMobileLinks />', () => {
     )
     expect(screen.getByRole('link', { name: /sobre/i })).toHaveAttribute(
       'href',
-      '#'
+      '/about'
     )
     expect(screen.getByRole('link', { name: /cases/i })).toHaveAttribute(
       'href',
