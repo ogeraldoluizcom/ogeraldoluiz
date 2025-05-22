@@ -25,7 +25,7 @@ export const ExperienceItem = ({
       <b className="text-md font-bold text-indigo-400 animate-fade-in">
         {type}
       </b>
-      <p className="mt-2animate-fade-in">{description}</p>
+      <p className="mt-2 animate-fade-in">{description}</p>
     </div>
   )
 }
