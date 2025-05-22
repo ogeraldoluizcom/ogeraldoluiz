@@ -19,6 +19,7 @@ export default function LoadingOverlay() {
         <div
           className="h-fulll bg-indigo-500 transition-all duration-200"
           style={{ width: `${progress}%` }}
+          data-testid="loading-overlay-outer"
         />
       </div>
     </div>
