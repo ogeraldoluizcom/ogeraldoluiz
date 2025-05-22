@@ -24,9 +24,6 @@ describe('ExperienceItem', () => {
     expect(screen.getByText(props.type)).toBeInTheDocument()
 
     expect(screen.getByText(props.description)).toBeInTheDocument()
-
-    const image = screen.getByAltText('Hard Skills')
-    expect(image).toBeInTheDocument()
   })
 
   it('should render correctly without the duration', () => {

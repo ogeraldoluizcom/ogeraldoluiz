@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 interface ExperienceItemProps {
   company: string
   role: string
@@ -16,23 +14,18 @@ export const ExperienceItem = ({
   duration
 }: ExperienceItemProps) => {
   return (
-    <div>
+    <div className="relative pl-8 before:content-[''] before:absolute before:left-2 before:top-2 before:w-1 before:bg-indigo-500 before:rounded-full">
       <div className="flex items-center gap-6">
+        <div className="absolute left-[2px] top-2 w-4 h-4 bg-indigo-500 border-4 border-white rounded-full shadow-md" />
         <h3 className="text-2xl font-bold">{company}</h3>
-        <span>
-          <Image
-            src="/img/custom-line.png"
-            alt="Hard Skills"
-            width={50}
-            height={50}
-          />
-        </span>
       </div>
-      <h4>
+      <h4 className="mt-1 text-xs font-semibold animate-fade-in">
         {role} {duration && `(${duration})`}
       </h4>
-      <b className="text-md text-bold">{type}</b>
-      <p>{description}</p>
+      <b className="text-md font-bold text-indigo-400 animate-fade-in">
+        {type}
+      </b>
+      <p className="mt-2animate-fade-in">{description}</p>
     </div>
   )
 }
