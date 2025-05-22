@@ -15,7 +15,7 @@ export const Navbar = () => {
     },
     {
       name: 'Sobre',
-      href: '#',
+      href: '/about',
       active: pathname === '/about'
     },
     {
