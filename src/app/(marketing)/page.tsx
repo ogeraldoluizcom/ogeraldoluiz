@@ -1,5 +1,6 @@
 import { Hero } from '@/components/hero'
 import { SectionExperience } from '@/components/section-experience'
+import { SectionPortfolio } from '@/components/section-portfolio'
 import { SectionTech } from '@/components/section-tech'
 
 const Home = () => {
@@ -13,6 +14,9 @@ const Home = () => {
       </section>
       <section>
         <SectionTech />
+      </section>
+      <section>
+        <SectionPortfolio />
       </section>
     </div>
   )
