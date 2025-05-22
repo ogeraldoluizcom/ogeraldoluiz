@@ -20,7 +20,7 @@ const MarketingLayout = ({ children }: MarketingLayout) => {
         </div>
         <main>{children}</main>
       </div>
-      <footer className="p-4 bg-gray-800 text-white w-full">
+      <footer className="p-4 bg-indigo-900 text-white w-full">
         <Footer />
       </footer>
     </>
