@@ -8,7 +8,7 @@ export const HeaderMobileLinks = () => {
         <Link href="/">Home</Link>
       </Button>
       <Button asChild variant="link" className="w-full">
-        <Link href="#">Sobre</Link>
+        <Link href="/about">Sobre</Link>
       </Button>
       <Button asChild variant="link" className="w-full">
         <Link href="#">Cases</Link>
