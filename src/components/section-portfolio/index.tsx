@@ -13,7 +13,7 @@ export const SectionPortfolio = () => {
         imageUrl="/img/cover-wongames.png"
         title="Won Games Store"
         description="Criação de um e-commerce de jogos, incluindo toda a parte de pagamentos."
-        url="#"
+        url="/cases/won-games"
       />
     </div>
   )
