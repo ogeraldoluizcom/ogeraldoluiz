@@ -17,7 +17,6 @@ const Home = () => {
       </section>
       <section>
         <SectionPortfolio />
-        <p className="bg-black text-white p-6">Rollback</p>
       </section>
     </div>
   )
