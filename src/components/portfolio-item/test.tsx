@@ -49,6 +49,5 @@ describe('PortfolioItem', () => {
     render(<PortfolioItem {...props} />)
     const link = screen.getByRole('link')
     expect(link).toHaveAttribute('href', props.url)
-    expect(link).toHaveAttribute('target', '_blank')
   })
 })

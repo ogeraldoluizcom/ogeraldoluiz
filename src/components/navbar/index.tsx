@@ -20,7 +20,7 @@ export const Navbar = () => {
     },
     {
       name: 'Cases',
-      href: '#',
+      href: '/cases',
       active: pathname === '/cases'
     },
     {

@@ -34,7 +34,6 @@ export const PortfolioItem = ({
           <div className="flex items-center w-10 h-10">
             <Link
               href={url}
-              target="_blank"
               className="
                 bg-white
                 text-indigo-600
