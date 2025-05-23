@@ -17,7 +17,6 @@ const Home = () => {
       </section>
       <section>
         <SectionPortfolio />
-        <section className="bg-black text-white p-8">Test</section>
       </section>
     </div>
   )
