@@ -11,10 +11,10 @@ export const HeaderMobileLinks = () => {
         <Link href="/about">Sobre</Link>
       </Button>
       <Button asChild variant="link" className="w-full">
-        <Link href="#">Cases</Link>
+        <Link href="/cases">Cases</Link>
       </Button>
       <Button asChild variant="link" className="w-full">
-        <Link href="#">Contato</Link>
+        <Link href="/contact">Contato</Link>
       </Button>
     </div>
   )
