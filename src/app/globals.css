@@ -10,6 +10,12 @@ body,
   background: #212428;
 }
 
+input,
+textarea,
+select {
+  color: #000;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
