@@ -25,7 +25,7 @@ export const Navbar = () => {
     },
     {
       name: 'Contato',
-      href: '#',
+      href: '/contact',
       active: pathname === '/contact'
     }
   ]
