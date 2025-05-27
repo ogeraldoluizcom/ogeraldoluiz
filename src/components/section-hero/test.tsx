@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { Hero } from '.'
+import { SectionHero } from '.'
 
-describe('<Hero />', () => {
+describe('<SectionHero />', () => {
   it('renders without crashing', () => {
-    render(<Hero />)
+    render(<SectionHero />)
 
     expect(
       screen.getByText((content, element) => {

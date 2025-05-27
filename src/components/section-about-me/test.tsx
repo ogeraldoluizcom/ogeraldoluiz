@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { AboutMe } from '.'
+import { SectionAboutMe } from '.'
 
-describe('<AboutMe />', () => {
+describe('<SectionAboutMe />', () => {
   it('renders all the expected paragraphs', () => {
-    render(<AboutMe />)
+    render(<SectionAboutMe />)
 
     expect(
       screen.getByText(

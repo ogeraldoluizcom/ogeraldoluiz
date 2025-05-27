@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { AboutMe } from '.'
+import { SectionAboutMe } from '.'
 
-describe('AboutMe', () => {
+describe('SectionAboutMe', () => {
   it('renders the title and main content', () => {
-    render(<AboutMe />)
+    render(<SectionAboutMe />)
 
     expect(screen.getByText('💼 Sobre Mim')).toBeInTheDocument()
     expect(

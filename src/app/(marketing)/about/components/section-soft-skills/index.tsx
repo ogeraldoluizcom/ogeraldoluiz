@@ -1,8 +1,8 @@
 import { Title } from '@/components/title'
 
-export const SoftSkills = () => {
+export const SectionSoftSkills = () => {
   return (
-    <>
+    <section>
       <Title align="left" subtitle="🤝 Soft Skills" />
       <ul className="list-disc list-inside space-y-2">
         <li>
@@ -14,6 +14,6 @@ export const SoftSkills = () => {
         <li>Curiosidade constante por novas tecnologias e boas práticas</li>
         <li>Compromisso com entregas de alto impacto e código limpo</li>
       </ul>
-    </>
+    </section>
   )
 }
