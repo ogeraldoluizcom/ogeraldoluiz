@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { SoftSkills } from '.'
+import { SectionSoftSkills } from '.'
 
-describe('SoftSkills', () => {
+describe('SectionSoftSkills', () => {
   it('renders the title and all soft skills', () => {
-    render(<SoftSkills />)
+    render(<SectionSoftSkills />)
 
     expect(screen.getByText('🤝 Soft Skills')).toBeInTheDocument()
     expect(

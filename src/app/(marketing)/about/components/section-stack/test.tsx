@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { Stack } from '.'
+import { SectionStack } from '.'
 
-describe('Stack', () => {
+describe('SectionStack', () => {
   it('renders the title and all stack items', () => {
-    render(<Stack />)
+    render(<SectionStack />)
 
     expect(screen.getByText('⚙️ Stack Atual')).toBeInTheDocument()
     expect(
