@@ -1,15 +1,19 @@
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { SocialLink } from '../social-link'
+
+import { SocialButton } from '@/components/social-button'
 
 export const Social = () => {
   return (
     <div className="flex items-center space-x-2 mr-2">
-      <SocialLink href="https://github.com/geraldobl58">
-        <FaGithub aria-label="Github" />
-      </SocialLink>
-      <SocialLink href="https://www.linkedin.com/in/geraldo-luiz-b626ab31/">
-        <FaLinkedin aria-label="Linkedin" />
-      </SocialLink>
+      <SocialButton href="https://github.com/geraldobl58" ariaLabel="github">
+        <FaGithub className="size-4" />
+      </SocialButton>
+      <SocialButton
+        href="https://www.linkedin.com/in/geraldo-luiz-b626ab31/"
+        ariaLabel="linkedin"
+      >
+        <FaLinkedin className="size-4" />
+      </SocialButton>
     </div>
   )
 }

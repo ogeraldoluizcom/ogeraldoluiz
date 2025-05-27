@@ -1,8 +1,8 @@
 import { Title } from '@/components/title'
 
-export const Stack = () => {
+export const SectionStack = () => {
   return (
-    <>
+    <section>
       <Title align="left" subtitle="⚙️ Stack Atual" />
       <ul className="list-disc list-inside space-y-2">
         <li>
@@ -21,6 +21,6 @@ export const Stack = () => {
         <li>Bancos de Dados: PostgreSQL, MySQL, MongoDB</li>
         <li>CMS: WordPress, Magento, ARCXP</li>
       </ul>
-    </>
+    </section>
   )
 }
