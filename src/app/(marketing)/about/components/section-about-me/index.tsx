@@ -1,8 +1,8 @@
 import { Title } from '@/components/title'
 
-export const AboutMe = () => {
+export const SectionAboutMe = () => {
   return (
-    <>
+    <section>
       <Title align="left" subtitle="💼 Sobre Mim" />
       <p>
         Sou Engenheiro de Software Sênior com sólida experiência em
@@ -50,6 +50,6 @@ export const AboutMe = () => {
           eficiência do suporte técnico.
         </li>
       </ul>
-    </>
+    </section>
   )
 }

@@ -4,11 +4,11 @@ import Link from 'next/link'
 
 import { ArrowRightIcon } from 'lucide-react'
 
-import { AboutMe } from '@/components/about-me'
-import { Typed } from '@/components/typed'
+import { SectionTyped } from '@/components/section-typed'
+import { SectionAboutMe } from '@/components/section-about-me'
 import { Button } from '@/components/ui/button'
 
-export const Hero = () => {
+export const SectionHero = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="space-y-2">
@@ -16,9 +16,9 @@ export const Hero = () => {
           👋 Olá, eu sou <b className="text-indigo-500">Geraldo Luiz</b>
         </h1>
         <div className="hidden md:block">
-          <Typed />
+          <SectionTyped />
         </div>
-        <AboutMe />
+        <SectionAboutMe />
         <Button asChild size="lg" className="w-full">
           <Link href="/contact">
             Entre em contato <ArrowRightIcon className="ml-2 size-4" />
@@ -34,8 +34,8 @@ export const Hero = () => {
           w-full
           h-[650px]
           rounded-lg
-         hidden
-         md:block
+          hidden
+          md:block
         "
       />
     </div>

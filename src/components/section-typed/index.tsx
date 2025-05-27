@@ -9,7 +9,7 @@ const ROLES = [
   'Cloud Engineer'
 ]
 
-export const Typed = () => {
+export const SectionTyped = () => {
   return (
     <TypeAnimation
       sequence={ROLES}

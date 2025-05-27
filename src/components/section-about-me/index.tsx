@@ -1,4 +1,4 @@
-export const AboutMe = () => {
+export const SectionAboutMe = () => {
   return (
     <div className="space-y-8 leading-7">
       <p>
