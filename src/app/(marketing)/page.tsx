@@ -1,4 +1,4 @@
-import { Hero } from '@/components/hero'
+import { SectionHero } from '@/components/section-hero'
 import { SectionExperience } from '@/components/section-experience'
 import { SectionPortfolio } from '@/components/section-portfolio'
 import { SectionTech } from '@/components/section-tech'
@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="px-4 space-y-8">
       <section>
-        <Hero />
+        <SectionHero />
       </section>
       <section>
         <SectionExperience />
