@@ -7,7 +7,7 @@ const Cases = () => {
       <div className="space-y-4 p-8">
         <Title
           align="left"
-          subtitle="🏆 Cases"
+          subtitle="Cases"
           description="Expore alguns dos cases de sucesso"
         />
         <PortfolioItem

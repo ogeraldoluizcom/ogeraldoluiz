@@ -5,7 +5,7 @@ describe('SectionStack', () => {
   it('renders the title and all stack items', () => {
     render(<SectionStack />)
 
-    expect(screen.getByText('⚙️ Stack Atual')).toBeInTheDocument()
+    expect(screen.getByText('Stack Atual')).toBeInTheDocument()
     expect(
       screen.getByText(
         /Frontend: HTML, CSS, JavaScript, ReactJS, Next\.js, TypeScript, React\s*Native, Styled Components, Tailwind CSS, Material-UI/i
