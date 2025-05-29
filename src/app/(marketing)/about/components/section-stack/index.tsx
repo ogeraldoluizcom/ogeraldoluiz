@@ -3,7 +3,7 @@ import { Title } from '@/components/title'
 export const SectionStack = () => {
   return (
     <section>
-      <Title align="left" subtitle="⚙️ Stack Atual" />
+      <Title align="left" subtitle="Stack Atual" />
       <ul className="list-disc list-inside space-y-2">
         <li>
           Frontend: HTML, CSS, JavaScript, ReactJS, Next.js, TypeScript, React

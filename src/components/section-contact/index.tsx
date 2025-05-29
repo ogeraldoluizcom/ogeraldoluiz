@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Title } from '@/components/title'
 
 import { contactFormSchema } from '@/schemas/contact'
+import { cn } from '@/lib/utils'
 
 export const SectionContact = () => {
   const form = useForm<z.infer<typeof contactFormSchema>>({
@@ -43,11 +44,43 @@ export const SectionContact = () => {
       />
       <div className="rounded-md p-4 bg-indigo-500">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Title
-            align="left"
-            subtitle="Bora conversar?"
-            description="Vamos trocar uma ideia sobre o seu projeto, tirar dúvidas ou até mesmo tomar um café virtual. Estou aqui para ajudar!"
-          />
+          <div>
+            <Title
+              align="left"
+              subtitle="Bora conversar?"
+              description="Vamos trocar uma ideia sobre o seu projeto, tirar dúvidas ou até mesmo tomar um café virtual. Estou aqui para ajudar!"
+            />
+            <div className="flex flex-col items-center">
+              <div
+                className="relative flex items-center justify-center"
+                style={{ width: 300, height: 300 }}
+              >
+                <svg
+                  width="300"
+                  height="300"
+                  viewBox="0 0 180 180"
+                  className="absolute inset-0 animate-spin-slow pointer-events-none"
+                >
+                  <defs>
+                    <path
+                      id="circlePath"
+                      d="M 90, 90 m -70, 0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0"
+                    />
+                  </defs>
+                  <text fill="white" fontSize="11" fontWeight="bold">
+                    <textPath href="#circlePath" startOffset="0%">
+                      • Fullstack • Frontend • Backend • Devops • Automação •
+                      Fullstack • Frontend • Backend • Devops • Automação •
+                    </textPath>
+                  </text>
+                </svg>
+                <div>
+                  <p className="text-sm font-bold">Desenvolvendo soluções</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -59,15 +92,22 @@ export const SectionContact = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome</FormLabel>
+                      <FormLabel
+                        className={cn(
+                          'text-sm font-medium text-white',
+                          form.formState.errors.body ? 'text-white' : ''
+                        )}
+                      >
+                        Nome
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Seu nome"
-                          {...field}
                           className="w-full"
+                          {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-rose-950" />
                     </FormItem>
                   )}
                 />
@@ -76,15 +116,22 @@ export const SectionContact = () => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Assunto</FormLabel>
+                      <FormLabel
+                        className={cn(
+                          'text-sm font-medium text-white',
+                          form.formState.errors.body ? 'text-white' : ''
+                        )}
+                      >
+                        Assunto
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Assunto"
-                          {...field}
                           className="w-full"
+                          {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-rose-950" />
                     </FormItem>
                   )}
                 />
@@ -94,11 +141,18 @@ export const SectionContact = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel
+                      className={cn(
+                        'text-sm font-medium text-white',
+                        form.formState.errors.body ? 'text-white' : ''
+                      )}
+                    >
+                      Email
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Seu e-mail" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-rose-950" />
                   </FormItem>
                 )}
               />
@@ -107,14 +161,21 @@ export const SectionContact = () => {
                 name="body"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mensagem</FormLabel>
+                    <FormLabel
+                      className={cn(
+                        'text-sm font-medium text-white',
+                        form.formState.errors.body ? 'text-white' : ''
+                      )}
+                    >
+                      Mensagem
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Escreva sua mensagem aqui..."
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-rose-950" />
                   </FormItem>
                 )}
               />

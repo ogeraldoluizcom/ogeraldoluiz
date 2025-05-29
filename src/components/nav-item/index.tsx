@@ -23,15 +23,19 @@ export const NavItem = ({
             uppercase
             font-medium
             hover:bg-indigo-500
+            hover:border-b-4
+            hover:border-indigo-500
+            hover:text-white
+            hover:shadow-lg
+            hover:shadow-indigo-500/50
+            hover:transition-all
+            hover:duration-300
+            hover:ease-in-out
+            hover:scale-105
             hover:font-medium
             rounded-lg
             p-3
             text-[12px]
-            transition-colors
-            duration-300
-            ease-
-            transform
-            hover:scale-110
           `,
           isActive ? 'border-b-4 bg-indigo-500' : ''
         )}
