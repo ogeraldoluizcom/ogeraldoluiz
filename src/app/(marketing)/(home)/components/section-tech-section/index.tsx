@@ -3,7 +3,7 @@ interface TechSectionProps {
   icons: React.ReactNode[]
 }
 
-export const TechSection = ({ title, icons }: TechSectionProps) => {
+export const SectionTechSection = ({ title, icons }: TechSectionProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 mb-8">
       <h3 className="text-2xl font-bold">{title}</h3>

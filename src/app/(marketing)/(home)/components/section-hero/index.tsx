@@ -4,9 +4,9 @@ import Link from 'next/link'
 
 import { ArrowRightIcon } from 'lucide-react'
 
-import { SectionTyped } from '@/components/section-typed'
-import { SectionAboutMe } from '@/components/section-about-me'
+import { SectionTyped } from '@/app/(marketing)/(home)/components/section-typed'
 import { Button } from '@/components/ui/button'
+import { SectionAboutMe } from '../section-about-me'
 
 export const SectionHero = () => {
   return (

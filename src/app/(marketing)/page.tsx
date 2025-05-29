@@ -1,7 +1,7 @@
-import { SectionHero } from '@/components/section-hero'
-import { SectionExperience } from '@/components/section-experience'
-import { SectionPortfolio } from '@/components/section-portfolio'
-import { SectionTech } from '@/components/section-tech'
+import { SectionHero } from '@/app/(marketing)/(home)/components/section-hero'
+import { SectionExperience } from '@/app/(marketing)/(home)/components/section-experience'
+import { SectionTech } from '@/app/(marketing)/(home)/components/section-tech'
+import { CasePortfolio } from './cases/components/case-portfolio'
 
 const Home = () => {
   return (
@@ -16,7 +16,7 @@ const Home = () => {
         <SectionTech />
       </section>
       <section>
-        <SectionPortfolio />
+        <CasePortfolio />
       </section>
     </div>
   )

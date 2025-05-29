@@ -3,7 +3,7 @@ import { Title } from '@/components/title'
 export const SectionAboutMe = () => {
   return (
     <section>
-      <Title align="left" subtitle="💼 Sobre Mim" />
+      <Title align="left" subtitle="Sobre Mim" />
       <p>
         Sou Engenheiro de Software Sênior com sólida experiência em
         desenvolvimento full stack, automações, integração de sistemas e

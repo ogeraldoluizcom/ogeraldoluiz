@@ -1,7 +1,7 @@
 import { Title } from '@/components/title'
-import { PortfolioItem } from '@/components/portfolio-item'
+import { CaseItem } from '../case-item'
 
-export const SectionPortfolio = () => {
+export const CasePortfolio = () => {
   return (
     <div className="py-10">
       <Title
@@ -9,7 +9,7 @@ export const SectionPortfolio = () => {
         subtitle="Transformando ideias em soluções"
         description="Abaixo estão alguns dos meus projetos mais recentes, onde apliquei minhas habilidades."
       />
-      <PortfolioItem
+      <CaseItem
         imageUrl="/img/cover-wongames.png"
         title="Won Games Store"
         description="Criação de um e-commerce de jogos, incluindo toda a parte de pagamentos."

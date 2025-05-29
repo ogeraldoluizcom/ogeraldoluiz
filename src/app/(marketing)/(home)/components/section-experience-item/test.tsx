@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { ExperienceItem } from '.'
+import { SectionExperienceItem } from '.'
 
 describe('ExperienceItem', () => {
   it('should correctly render the provided data', () => {
@@ -13,7 +13,7 @@ describe('ExperienceItem', () => {
       duration: 'Jan 2020 - Dez 2023'
     }
 
-    render(<ExperienceItem {...props} />)
+    render(<SectionExperienceItem {...props} />)
 
     expect(screen.getByText(props.company)).toBeInTheDocument()
 
@@ -35,7 +35,7 @@ describe('ExperienceItem', () => {
       duration: null
     }
 
-    render(<ExperienceItem {...props} />)
+    render(<SectionExperienceItem {...props} />)
 
     expect(screen.getByText(props.role)).toBeInTheDocument()
     expect(screen.queryByText(/\(/)).not.toBeInTheDocument()

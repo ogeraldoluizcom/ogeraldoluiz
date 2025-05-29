@@ -5,7 +5,7 @@ describe('SectionAboutMe', () => {
   it('renders the title and main content', () => {
     render(<SectionAboutMe />)
 
-    expect(screen.getByText('💼 Sobre Mim')).toBeInTheDocument()
+    expect(screen.getByText('Sobre Mim')).toBeInTheDocument()
     expect(
       screen.getByText(/Sou Engenheiro de Software Sênior/i)
     ).toBeInTheDocument()
