@@ -14,8 +14,8 @@ jest.mock('@/lib/experience', () => ({
   experiences
 }))
 
-jest.mock('@/components/experience-item', () => ({
-  ExperienceItem: ({ title }: { title: string }) => <div>{title}</div>
+jest.mock('../section-experience-item', () => ({
+  SectionExperienceItem: ({ title }: { title: string }) => <div>{title}</div>
 }))
 
 describe('SectionExperience', () => {

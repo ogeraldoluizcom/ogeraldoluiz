@@ -6,7 +6,7 @@ interface ExperienceItemProps {
   duration?: string | null
 }
 
-export const ExperienceItem = ({
+export const SectionExperienceItem = ({
   company,
   role,
   type,

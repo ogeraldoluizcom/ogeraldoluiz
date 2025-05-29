@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { PortfolioItem } from '.'
+import { CaseItem } from '.'
 
 // eslint-disable-next-line @next/next/no-img-element
 jest.mock('next/image', () => {
@@ -27,7 +27,7 @@ jest.mock('next/link', () => {
   return MockLink
 })
 
-describe('PortfolioItem', () => {
+describe('CaseItem', () => {
   const props = {
     imageUrl: '/test.jpg',
     title: 'Test Project',
@@ -36,7 +36,7 @@ describe('PortfolioItem', () => {
   }
 
   it('renders the title, description, and image', () => {
-    render(<PortfolioItem {...props} />)
+    render(<CaseItem {...props} />)
     expect(screen.getByText(props.title)).toBeInTheDocument()
     expect(screen.getByText(props.description)).toBeInTheDocument()
     expect(screen.getByAltText(props.title)).toHaveAttribute(
@@ -46,7 +46,7 @@ describe('PortfolioItem', () => {
   })
 
   it('renders a link with the correct URL', () => {
-    render(<PortfolioItem {...props} />)
+    render(<CaseItem {...props} />)
     const link = screen.getByRole('link')
     expect(link).toHaveAttribute('href', props.url)
   })

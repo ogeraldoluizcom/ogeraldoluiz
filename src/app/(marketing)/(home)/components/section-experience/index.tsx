@@ -1,7 +1,7 @@
 import { experiences } from '@/lib/experience'
 
-import { ExperienceItem } from '@/components/experience-item'
 import { Title } from '@/components/title'
+import { SectionExperienceItem } from '../section-experience-item'
 
 export const SectionExperience = () => {
   return (
@@ -15,7 +15,7 @@ export const SectionExperience = () => {
       />
       <div className="space-y-8">
         {experiences.map((experience, index) => (
-          <ExperienceItem key={index} {...experience} />
+          <SectionExperienceItem key={index} {...experience} />
         ))}
       </div>
     </div>

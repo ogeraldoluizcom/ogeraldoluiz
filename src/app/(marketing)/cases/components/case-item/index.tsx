@@ -3,19 +3,19 @@ import Link from 'next/link'
 
 import { ArrowUpRight } from 'lucide-react'
 
-interface PortfolioItemProps {
+interface CaseItemProps {
   imageUrl: string
   title: string
   description: string
   url: string
 }
 
-export const PortfolioItem = ({
+export const CaseItem = ({
   imageUrl,
   title,
   description,
   url
-}: PortfolioItemProps) => {
+}: CaseItemProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
       <div className="bg-indigo-900 shadow-lg rounded-lg p-4">
