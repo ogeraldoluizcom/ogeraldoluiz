@@ -59,7 +59,7 @@ export const SectionContact = () => {
                   width="300"
                   height="300"
                   viewBox="0 0 180 180"
-                  className="absolute inset-0 animate-spin-slow pointer-events-none"
+                  className="absolute inset-0 animate-[spin_20s_linear_infinite] pointer-events-none"
                 >
                   <defs>
                     <path
@@ -67,15 +67,34 @@ export const SectionContact = () => {
                       d="M 90, 90 m -70, 0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0"
                     />
                   </defs>
-                  <text fill="white" fontSize="11" fontWeight="bold">
-                    <textPath href="#circlePath" startOffset="0%">
-                      • Fullstack • Frontend • Backend • Devops • Automação •
-                      Fullstack • Frontend • Backend • Devops • Automação •
+                  <text
+                    fill="url(#gradientText)"
+                    fontSize="12"
+                    fontWeight="bold"
+                    letterSpacing="2"
+                  >
+                    <textPath href="#circlePath" startOffset="1%">
+                      • Fullstack • Frontend • Backend • Devops • Automação
                     </textPath>
                   </text>
+                  <defs>
+                    <linearGradient
+                      id="gradientText"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" stopColor="white" />
+                      <stop offset="100%" stopColor="gray" />
+                    </linearGradient>
+                  </defs>
                 </svg>
-                <div>
-                  <p className="text-sm font-bold">Desenvolvendo soluções</p>
+
+                <div className="z-10 text-center">
+                  <p className="text-sm font-bold text-white animate-pulse">
+                    Desenvolvendo soluções
+                  </p>
                 </div>
               </div>
             </div>

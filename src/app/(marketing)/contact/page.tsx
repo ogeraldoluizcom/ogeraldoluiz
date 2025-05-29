@@ -1,6 +1,6 @@
 'use client'
 
-import { SectionContact } from '@/components/section-contact'
+import { SectionContact } from '@/app/(marketing)/contact/components/section-contact'
 
 const Contact = () => {
   return (
