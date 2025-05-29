@@ -3,7 +3,7 @@ import { Title } from '@/components/title'
 export const SectionSoftSkills = () => {
   return (
     <section>
-      <Title align="left" subtitle="🤝 Soft Skills" />
+      <Title align="left" subtitle="Soft Skills" />
       <ul className="list-disc list-inside space-y-2">
         <li>
           Comunicação clara e colaboração ativa com stakeholders técnicos e não

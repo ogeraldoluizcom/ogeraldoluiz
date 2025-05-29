@@ -5,7 +5,7 @@ describe('SectionSoftSkills', () => {
   it('renders the title and all soft skills', () => {
     render(<SectionSoftSkills />)
 
-    expect(screen.getByText('🤝 Soft Skills')).toBeInTheDocument()
+    expect(screen.getByText('Soft Skills')).toBeInTheDocument()
     expect(
       screen.getByText(/Comunicação clara e colaboração ativa/i)
     ).toBeInTheDocument()

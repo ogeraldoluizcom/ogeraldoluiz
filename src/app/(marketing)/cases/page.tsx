@@ -1,5 +1,5 @@
 import { Title } from '@/components/title'
-import { PortfolioItem } from '@/components/portfolio-item'
+import { CaseItem } from './components/case-item'
 
 const Cases = () => {
   return (
@@ -7,10 +7,10 @@ const Cases = () => {
       <div className="space-y-4 p-8">
         <Title
           align="left"
-          subtitle="🏆 Cases"
+          subtitle="Cases"
           description="Expore alguns dos cases de sucesso"
         />
-        <PortfolioItem
+        <CaseItem
           imageUrl="/img/cover-wongames.png"
           title="Won Games Store"
           description="Criação de um e-commerce de jogos, incluindo toda a parte de pagamentos."

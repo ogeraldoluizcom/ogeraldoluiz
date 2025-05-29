@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { SectionPortfolio } from '.'
+import { CasePortfolio } from '.'
 
-describe('SectionPortfolio', () => {
+describe('CasePortfolio', () => {
   it('should render the title, subtitle, description and portfolio item', () => {
-    render(<SectionPortfolio />)
+    render(<CasePortfolio />)
 
     expect(screen.getByText('Portfolio')).toBeInTheDocument()
     expect(

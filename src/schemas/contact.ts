@@ -1,22 +1,35 @@
 import { z } from 'zod'
+import sanitizeHtml from 'sanitize-html'
 
 export const contactFormSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Campo nome é obrigatório!'
-  }),
-  subject: z.string().min(2, {
-    message: 'Campo assunto é obrigatório!'
-  }),
-  email: z
+  name: z
     .string()
-    .min(2, {
-      message: 'O campo de email é obrigatório.'
+    .min(1, {
+      message: 'Nome é obrigatório'
     })
-    .email({
-      message: 'O email deve ser válido.'
-    }),
-
-  body: z.string().min(5, {
-    message: 'A mensagem deve ter pelo menos 5 caracteres.'
-  })
+    .max(100, {
+      message: 'Nome deve ter no máximo 100 caracteres'
+    })
+    .transform((value) => sanitizeHtml(value)),
+  subject: z
+    .string()
+    .min(1, {
+      message: 'Assunto é obrigatório'
+    })
+    .max(100, {
+      message: 'Assunto deve ter no máximo 100 caracteres'
+    })
+    .transform((value) => sanitizeHtml(value)),
+  email: z.string().email({
+    message: 'Informe um e-mail válido'
+  }),
+  body: z
+    .string()
+    .min(1, {
+      message: 'Mensagem é obrigatória'
+    })
+    .max(1000, {
+      message: 'Mensagem deve ter no máximo 1000 caracteres'
+    })
+    .transform((value) => sanitizeHtml(value))
 })

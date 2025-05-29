@@ -1,4 +1,3 @@
-import { TechSection } from '@/components/tech-section'
 import { AiOutlineOpenAI } from 'react-icons/ai'
 import { BiLogoTypescript } from 'react-icons/bi'
 import {
@@ -40,6 +39,7 @@ import {
 import { TbBrandAnsible, TbBrandTerraform } from 'react-icons/tb'
 
 import { Title } from '@/components/title'
+import { SectionTechSection } from '../section-tech-section'
 
 export const SectionTech = () => {
   return (
@@ -49,7 +49,7 @@ export const SectionTech = () => {
         subtitle="Ferramentas e frameworks que utilizo"
         description="Tecnologias que trabalho e que me ajudam a criar soluções inovadoras e impactantes."
       />
-      <TechSection
+      <SectionTechSection
         title="Frontend Developer"
         icons={[
           <GrReactjs key="reactjs" className="text-4xl" size={40} />,
@@ -63,7 +63,7 @@ export const SectionTech = () => {
           <SiStorybook key="storybook" className="text-4xl" size={40} />
         ]}
       />
-      <TechSection
+      <SectionTechSection
         title="Backend Developer"
         icons={[
           <FaNodeJs key="nodejs" className="text-4xl" size={40} />,
@@ -81,7 +81,7 @@ export const SectionTech = () => {
           <SiRabbitmq key="rabbitmq" className="text-4xl" size={40} />
         ]}
       />
-      <TechSection
+      <SectionTechSection
         title="Devops"
         icons={[
           <FaDocker key="docker" className="text-4xl" size={40} />,
@@ -99,7 +99,7 @@ export const SectionTech = () => {
           <FaDigitalOcean key="digitalocean" className="text-4xl" size={40} />
         ]}
       />
-      <TechSection
+      <SectionTechSection
         title="Testes"
         icons={[
           <SiJest key="jest" className="text-4xl" size={40} />,
@@ -112,7 +112,7 @@ export const SectionTech = () => {
           <SiCypress key="cypress" className="text-4xl" size={40} />
         ]}
       />
-      <TechSection
+      <SectionTechSection
         title="Agentes IA & Automações"
         icons={[
           <SiN8N key="n8n" className="text-4xl" size={40} />,
