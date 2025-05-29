@@ -59,7 +59,7 @@ export const SectionContact = () => {
                   width="300"
                   height="300"
                   viewBox="0 0 180 180"
-                  className="absolute inset-0 animate-[spin_20s_linear_infinite] pointer-events-none"
+                  className="absolute inset-0 animate-[spin_30s_linear_infinite] pointer-events-none"
                 >
                   <defs>
                     <path
@@ -69,12 +69,13 @@ export const SectionContact = () => {
                   </defs>
                   <text
                     fill="url(#gradientText)"
-                    fontSize="12"
+                    fontSize="10"
                     fontWeight="bold"
-                    letterSpacing="2"
+                    letterSpacing="1.4"
                   >
                     <textPath href="#circlePath" startOffset="1%">
-                      • Fullstack • Frontend • Backend • Devops • Automação
+                      • Fullstack • Frontend • Backend • Devops • Automação •
+                      Frontend • Frontend • Backend • Devops • Automação •
                     </textPath>
                   </text>
                   <defs>
